@@ -8,18 +8,35 @@
 
 /* Begin PBXBuildFile section */
 		9830F0A62C119A3000D69C88 /* BrowserinoApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9830F0A52C119A3000D69C88 /* BrowserinoApp.swift */; };
-		9830F0A82C119A3000D69C88 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9830F0A72C119A3000D69C88 /* ContentView.swift */; };
+		9830F0A82C119A3000D69C88 /* SelectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9830F0A72C119A3000D69C88 /* SelectView.swift */; };
 		9830F0AA2C119A3100D69C88 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9830F0A92C119A3100D69C88 /* Assets.xcassets */; };
 		9830F0AD2C119A3100D69C88 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9830F0AC2C119A3100D69C88 /* Preview Assets.xcassets */; };
+		9830F0B62C119CD800D69C88 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9830F0B52C119CD800D69C88 /* main.swift */; };
+		9830F0B92C11B09700D69C88 /* BlurredView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9830F0B82C11B09700D69C88 /* BlurredView.swift */; };
+		9830F0BB2C11DE8F00D69C88 /* PreferencesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9830F0BA2C11DE8F00D69C88 /* PreferencesView.swift */; };
+		9830F0BE2C11DEBB00D69C88 /* View+If.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9830F0BD2C11DEBB00D69C88 /* View+If.swift */; };
+		9830F0C32C11DEED00D69C88 /* ButtonStyles.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9830F0C22C11DEED00D69C88 /* ButtonStyles.swift */; };
+		9830F0C52C11DF2C00D69C88 /* BrowserinoWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9830F0C42C11DF2C00D69C88 /* BrowserinoWindow.swift */; };
+		9830F0C72C11E87300D69C88 /* Array+RawRepresentable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9830F0C62C11E87300D69C88 /* Array+RawRepresentable.swift */; };
+		98F919362C12187500BDC10C /* Browserino.icns in Resources */ = {isa = PBXBuildFile; fileRef = 98F919352C12187500BDC10C /* Browserino.icns */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		9830F0A22C119A3000D69C88 /* Browserino.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Browserino.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9830F0A52C119A3000D69C88 /* BrowserinoApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrowserinoApp.swift; sourceTree = "<group>"; };
-		9830F0A72C119A3000D69C88 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		9830F0A72C119A3000D69C88 /* SelectView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectView.swift; sourceTree = "<group>"; };
 		9830F0A92C119A3100D69C88 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		9830F0AC2C119A3100D69C88 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		9830F0AE2C119A3100D69C88 /* Browserino.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Browserino.entitlements; sourceTree = "<group>"; };
+		9830F0B42C119AB500D69C88 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		9830F0B52C119CD800D69C88 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
+		9830F0B82C11B09700D69C88 /* BlurredView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlurredView.swift; sourceTree = "<group>"; };
+		9830F0BA2C11DE8F00D69C88 /* PreferencesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreferencesView.swift; sourceTree = "<group>"; };
+		9830F0BD2C11DEBB00D69C88 /* View+If.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+If.swift"; sourceTree = "<group>"; };
+		9830F0C22C11DEED00D69C88 /* ButtonStyles.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonStyles.swift; sourceTree = "<group>"; };
+		9830F0C42C11DF2C00D69C88 /* BrowserinoWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrowserinoWindow.swift; sourceTree = "<group>"; };
+		9830F0C62C11E87300D69C88 /* Array+RawRepresentable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Array+RawRepresentable.swift"; sourceTree = "<group>"; };
+		98F919352C12187500BDC10C /* Browserino.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = Browserino.icns; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -52,11 +69,17 @@
 		9830F0A42C119A3000D69C88 /* Browserino */ = {
 			isa = PBXGroup;
 			children = (
-				9830F0A52C119A3000D69C88 /* BrowserinoApp.swift */,
-				9830F0A72C119A3000D69C88 /* ContentView.swift */,
-				9830F0A92C119A3100D69C88 /* Assets.xcassets */,
-				9830F0AE2C119A3100D69C88 /* Browserino.entitlements */,
 				9830F0AB2C119A3100D69C88 /* Preview Content */,
+				9830F0BF2C11DEC900D69C88 /* Modifiers */,
+				9830F0BC2C11DEAB00D69C88 /* Extensions */,
+				9830F0B72C11B08B00D69C88 /* Views */,
+				9830F0A92C119A3100D69C88 /* Assets.xcassets */,
+				9830F0B42C119AB500D69C88 /* Info.plist */,
+				98F919352C12187500BDC10C /* Browserino.icns */,
+				9830F0AE2C119A3100D69C88 /* Browserino.entitlements */,
+				9830F0C42C11DF2C00D69C88 /* BrowserinoWindow.swift */,
+				9830F0A52C119A3000D69C88 /* BrowserinoApp.swift */,
+				9830F0B52C119CD800D69C88 /* main.swift */,
 			);
 			path = Browserino;
 			sourceTree = "<group>";
@@ -67,6 +90,33 @@
 				9830F0AC2C119A3100D69C88 /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		9830F0B72C11B08B00D69C88 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				9830F0BA2C11DE8F00D69C88 /* PreferencesView.swift */,
+				9830F0A72C119A3000D69C88 /* SelectView.swift */,
+				9830F0B82C11B09700D69C88 /* BlurredView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		9830F0BC2C11DEAB00D69C88 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				9830F0BD2C11DEBB00D69C88 /* View+If.swift */,
+				9830F0C62C11E87300D69C88 /* Array+RawRepresentable.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
+		9830F0BF2C11DEC900D69C88 /* Modifiers */ = {
+			isa = PBXGroup;
+			children = (
+				9830F0C22C11DEED00D69C88 /* ButtonStyles.swift */,
+			);
+			path = Modifiers;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -129,6 +179,7 @@
 			files = (
 				9830F0AD2C119A3100D69C88 /* Preview Assets.xcassets in Resources */,
 				9830F0AA2C119A3100D69C88 /* Assets.xcassets in Resources */,
+				98F919362C12187500BDC10C /* Browserino.icns in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -139,8 +190,15 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				9830F0A82C119A3000D69C88 /* ContentView.swift in Sources */,
+				9830F0BB2C11DE8F00D69C88 /* PreferencesView.swift in Sources */,
+				9830F0A82C119A3000D69C88 /* SelectView.swift in Sources */,
 				9830F0A62C119A3000D69C88 /* BrowserinoApp.swift in Sources */,
+				9830F0C52C11DF2C00D69C88 /* BrowserinoWindow.swift in Sources */,
+				9830F0BE2C11DEBB00D69C88 /* View+If.swift in Sources */,
+				9830F0C32C11DEED00D69C88 /* ButtonStyles.swift in Sources */,
+				9830F0B62C119CD800D69C88 /* main.swift in Sources */,
+				9830F0B92C11B09700D69C88 /* BlurredView.swift in Sources */,
+				9830F0C72C11E87300D69C88 /* Array+RawRepresentable.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -270,15 +328,20 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGNING_ALLOWED = NO;
 				CODE_SIGN_ENTITLEMENTS = Browserino/Browserino.entitlements;
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_IDENTITY = "Don't Code Sign";
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Don't Code Sign";
+				CODE_SIGN_STYLE = Manual;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Browserino/Preview Content\"";
 				DEVELOPMENT_TEAM = N37A28CLCC;
+				"DEVELOPMENT_TEAM[sdk=macosx*]" = "";
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Browserino/Info.plist;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -297,15 +360,20 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGNING_ALLOWED = NO;
 				CODE_SIGN_ENTITLEMENTS = Browserino/Browserino.entitlements;
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_IDENTITY = "Don't Code Sign";
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Don't Code Sign";
+				CODE_SIGN_STYLE = Manual;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Browserino/Preview Content\"";
 				DEVELOPMENT_TEAM = N37A28CLCC;
+				"DEVELOPMENT_TEAM[sdk=macosx*]" = "";
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Browserino/Info.plist;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
