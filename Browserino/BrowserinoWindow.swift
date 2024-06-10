@@ -15,15 +15,20 @@ class BrowserinoWindow: NSPanel {
     public convenience init() {
         self.init(
             contentRect: .init(x: 0, y: 0, width: Self.selectorWidth, height: Self.selectorHeight),
-            styleMask: .nonactivatingPanel,
+            styleMask: [.nonactivatingPanel, .titled, .fullSizeContentView],
             backing: .buffered,
             defer: false
         )
         
+        self.titlebarAppearsTransparent = true
+        self.titleVisibility = .hidden
+        
+        self.standardWindowButton(.miniaturizeButton)?.isHidden = true
+        self.standardWindowButton(.closeButton)?.isHidden = true
+        self.standardWindowButton(.zoomButton)?.isHidden = true
+        
         self.collectionBehavior = [.stationary, .ignoresCycle, .fullScreenAuxiliary, .canJoinAllSpaces]
-        self.backgroundColor = .clear
         self.isOpaque = false
-        self.hasShadow = false
         self.level = NSWindow.Level(Int(CGShieldingWindowLevel()))
         self.hidesOnDeactivate = true
         self.isMovable = false

@@ -10,7 +10,7 @@ import SwiftUI
 struct BlurredView: NSViewRepresentable {
     func makeNSView(context: Context) -> some NSVisualEffectView {
         let view = NSVisualEffectView()
-        view.material = .sidebar
+        view.material = .popover
         view.blendingMode = .behindWindow
         
         return view

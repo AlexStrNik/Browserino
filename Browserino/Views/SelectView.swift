@@ -102,12 +102,12 @@ struct SelectView: View {
                         )
                         return .handled
                     }
-
+                    
                     return .ignored
                 }
                 .onAppear {
                     focused.toggle()
-                    withAnimation {
+                    withAnimation(.interactiveSpring(duration: 0.3)) {
                         opacityAnimation = 1
                     }
                 }
@@ -127,12 +127,13 @@ struct SelectView: View {
             maxHeight: .infinity
         )
         .background(BlurredView())
-        .clipShape(
-            .rect(
-                cornerSize: .init(width: 16, height: 16)
-            )
-        )
+//        .clipShape(
+//            .rect(
+//                cornerSize: .init(width: 16, height: 16)
+//            )
+//        )
         .opacity(opacityAnimation)
+        .edgesIgnoringSafeArea(.all)
     }
 }
 
