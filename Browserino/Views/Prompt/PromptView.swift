@@ -19,17 +19,37 @@ struct PromptView: View {
     @State private var selected = 0
     @FocusState private var focused: Bool
     
-    var appsForUrls: [URL] {
+    var appsForUrls: [App] {
         urls.flatMap { url in
             return apps.filter { app in
-                url.host() == app.domain
-            }.map {
-                $0.app
+                url.host() == app.host
             }
         }
         .filter {
-            !browsers.contains($0)
+            !browsers.contains($0.app)
         }
+    }
+    
+    func openUrlsInApp(app: App) {
+        let urls = if app.schemeOverride.isEmpty {
+            urls
+        } else {
+            urls.map {
+                let url = NSURLComponents.init(
+                    url: $0,
+                    resolvingAgainstBaseURL: true
+                )
+                url!.scheme = app.schemeOverride
+                
+                return url!.url!
+            }
+        }
+        
+        NSWorkspace.shared.open(
+            urls,
+            withApplicationAt: app.app,
+            configuration: NSWorkspace.OpenConfiguration()
+        )
     }
     
     var body: some View {
@@ -39,13 +59,15 @@ struct PromptView: View {
                     VStack(alignment: .leading, spacing: 2) {
                         if !appsForUrls.isEmpty {
                             ForEach(Array(appsForUrls.enumerated()), id: \.offset) { index, app in
-                                if let bundle = Bundle(url: app) {
+                                if let bundle = Bundle(url: app.app) {
                                     PromptItem(
-                                        browser: app,
+                                        browser: app.app,
                                         urls: urls,
                                         bundle: bundle,
                                         shortcut: shortcuts[bundle.bundleIdentifier!]
-                                    )
+                                    ) {
+                                        openUrlsInApp(app: app)
+                                    }
                                     .id(index)
                                     .buttonStyle(
                                         SelectButtonStyle(
@@ -65,7 +87,13 @@ struct PromptView: View {
                                     urls: urls,
                                     bundle: bundle,
                                     shortcut: shortcuts[bundle.bundleIdentifier!]
-                                )
+                                ){
+                                    NSWorkspace.shared.open(
+                                        urls,
+                                        withApplicationAt: browser,
+                                        configuration: .init()
+                                    )
+                                }
                                 .id(appsForUrls.count + index)
                                 .buttonStyle(
                                     SelectButtonStyle(
@@ -89,17 +117,16 @@ struct PromptView: View {
                         scrollViewProxy.scrollTo(selected, anchor: .center)
                         return .handled
                     } else if press.key == KeyEquivalent.return {
-                        let browser = if selected < appsForUrls.count {
-                            appsForUrls[selected]
+                        if selected < appsForUrls.count {
+                            openUrlsInApp(app: appsForUrls[selected])
                         } else {
-                            browsers[selected]
+                            NSWorkspace.shared.open(
+                                urls,
+                                withApplicationAt: browsers[selected],
+                                configuration: NSWorkspace.OpenConfiguration.init()
+                            )
                         }
                         
-                        NSWorkspace.shared.open(
-                            urls,
-                            withApplicationAt: browser,
-                            configuration: NSWorkspace.OpenConfiguration.init()
-                        )
                         return .handled
                     }
                     

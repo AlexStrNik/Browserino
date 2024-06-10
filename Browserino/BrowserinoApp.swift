@@ -42,8 +42,8 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate {
     @objc func openPreferences() {
         if preferencesWindow == nil {
             preferencesWindow = NSWindow(
-                contentRect: NSRect(x: 0, y: 0, width: 600, height: 400),
-                styleMask: [.miniaturizable, .closable, .titled],
+                contentRect: NSRect(x: 0, y: 0, width: 700, height: 500),
+                styleMask: [.miniaturizable, .closable, .resizable, .titled],
                 backing: .buffered,
                 defer: false
             )
@@ -55,6 +55,8 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate {
         
         preferencesWindow!.isReleasedWhenClosed = false
         preferencesWindow!.titlebarAppearsTransparent = true
+        
+        preferencesWindow!.contentMinSize = NSSize(width: 700, height: 500)
         
         preferencesWindow!.level = .floating
         preferencesWindow!.collectionBehavior = [.moveToActiveSpace, .fullScreenNone]

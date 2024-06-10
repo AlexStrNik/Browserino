@@ -12,15 +12,10 @@ struct PromptItem: View {
     var urls: [URL]
     var bundle: Bundle
     var shortcut: String?
+    var action: () -> Void
     
     var body: some View {
-        Button(action: {
-            NSWorkspace.shared.open(
-                urls,
-                withApplicationAt: browser,
-                configuration: .init()
-            )
-        }) {
+        Button(action: action) {
             HStack {
                 Text(bundle.infoDictionary!["CFBundleName"] as! String)
                     .font(

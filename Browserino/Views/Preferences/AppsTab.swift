@@ -7,28 +7,42 @@
 
 import SwiftUI
 
-struct App: Codable {
-    var domain: String
+struct App: Codable, Hashable {
+    var host: String
+    var schemeOverride: String
     var app: URL
 }
 
 struct NewApp: View {
     @AppStorage("apps") private var apps: [App] = []
-    @State private var domain: String = ""
+    @State private var host: String = ""
     @State private var openWithPresented = false
+    
+    private var hostValid: Bool {
+        let url = if host.starts(with: /https?:\/\//) {
+            host
+        } else {
+            "http://" + host
+        }
+        
+        return !host.isEmpty && URL(string: url)?.host() != nil
+    }
     
     var body: some View {
         HStack {
-            Text("")
-                .font(
-                    .system(size: 16)
-                )
-                .frame(width: 30, alignment: .leading)
-            
-            TextField("example.com", text: $domain)
+            Image(systemName: "plus")
                 .font(
                     .system(size: 14)
                 )
+                .opacity(0)
+            
+            TextField("example.com", text: $host)
+                .font(
+                    .system(size: 14)
+                )
+            
+            Spacer()
+                .frame(width: 16)
             
             Button(action: {
                 openWithPresented.toggle()
@@ -40,17 +54,70 @@ struct NewApp: View {
                 allowedContentTypes: [.application]
             ) {
                 if case .success(let url) = $0 {
+                    let hostUrl = if host.starts(with: /https?:\/\//) {
+                        host
+                    } else {
+                        "http://" + host
+                    }
+                    
                     apps.append(
                         App(
-                            domain: domain,
+                            host: URL(string: hostUrl)!.host()!,
+                            schemeOverride: "",
                             app: url
                         )
                     )
-                    domain = ""
+                    host = ""
                 }
             }
+            .disabled(!hostValid)
         }
         .padding(10)
+    }
+}
+
+struct AppItem: View {
+    @Binding var app: App
+    @State private var editPresented = false
+    
+    var body: some View {
+        let bundle = Bundle(url: app.app)!
+
+        HStack {
+            Button(action: {
+                editPresented.toggle()
+            }) {
+                Label(app.host, systemImage: "pencil")
+                    .font(
+                        .system(size: 14)
+                    )
+                    .foregroundColor(.white)
+            }
+            .buttonStyle(.plain)
+            
+            Spacer()
+            
+            
+            Text(bundle.infoDictionary!["CFBundleName"] as! String)
+                .font(
+                    .system(size: 14)
+                )
+            
+            
+            Spacer()
+                .frame(width: 8)
+            
+            Image(nsImage: NSWorkspace.shared.icon(forFile: bundle.bundlePath))
+                .resizable()
+                .frame(width: 32, height: 32)
+        }
+        .padding(10)
+        .sheet(isPresented: $editPresented) {
+            EditAppForm(
+                app: $app,
+                isPresented: $editPresented
+            )
+        }
     }
 }
 
@@ -62,52 +129,14 @@ struct AppsTab: View {
             List {
                 NewApp()
                 
-                ForEach(Array(apps.enumerated()), id: \.offset) { offset, app in
-                    if let bundle = Bundle(url: app.app) {
-                        HStack {
-                            Text((offset + 1).formatted())
-                                .font(
-                                    .system(size: 16)
-                                )
-                                .frame(width: 30, alignment: .leading)
-                            
-                            Text(app.domain)
-                                .font(
-                                    .system(size: 14)
-                                )
-                            
-                            Spacer()
-                            
-                            
-                            Text(bundle.infoDictionary!["CFBundleName"] as! String)
-                                .font(
-                                    .system(size: 14)
-                                )
-                            
-                            
-                            Spacer()
-                                .frame(width: 8)
-                            
-                            Image(nsImage: NSWorkspace.shared.icon(forFile: bundle.bundlePath))
-                                .resizable()
-                                .frame(width: 32, height: 32)
-                            
-                            Button(role: .destructive) {
-                                apps.remove(at: offset)
-                            } label: {
-                                Image(systemName: "trash")
-                                    .resizable()
-                                    .frame(width: 16, height: 16)
-                                    .foregroundColor(.red)
-                            }
-                            .buttonStyle(.plain)
-                        }
-                        .padding(10)
-                    }
+                ForEach(Array($apps.enumerated()), id: \.offset) { offset, app in
+                    AppItem(
+                        app: app
+                    )
                 }
             }
             
-            Text("Add new app by typing domain which will be opened using it")
+            Text("Type domain and choose app in which links will be opened")
                 .font(.subheadline)
                 .foregroundStyle(.primary.opacity(0.5))
                 .frame(maxWidth: .infinity)

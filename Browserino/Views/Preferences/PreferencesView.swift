@@ -46,6 +46,7 @@ struct PreferencesView: View {
                 }
                 .tag(2)
         }
+        .frame(minWidth: 700, minHeight: 500)
     }
 }
 

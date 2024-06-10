@@ -24,6 +24,7 @@
 		989B17F72C16FD260039441B /* GeneralTab.swift in Sources */ = {isa = PBXBuildFile; fileRef = 989B17F62C16FD260039441B /* GeneralTab.swift */; };
 		989B17F92C170C160039441B /* AboutTab.swift in Sources */ = {isa = PBXBuildFile; fileRef = 989B17F82C170C160039441B /* AboutTab.swift */; };
 		989B17FB2C1710D70039441B /* AppsTab.swift in Sources */ = {isa = PBXBuildFile; fileRef = 989B17FA2C1710D70039441B /* AppsTab.swift */; };
+		989B17FD2C17400A0039441B /* EditAppForm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 989B17FC2C17400A0039441B /* EditAppForm.swift */; };
 		98F919362C12187500BDC10C /* Browserino.icns in Resources */ = {isa = PBXBuildFile; fileRef = 98F919352C12187500BDC10C /* Browserino.icns */; };
 /* End PBXBuildFile section */
 
@@ -48,6 +49,7 @@
 		989B17F62C16FD260039441B /* GeneralTab.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeneralTab.swift; sourceTree = "<group>"; };
 		989B17F82C170C160039441B /* AboutTab.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutTab.swift; sourceTree = "<group>"; };
 		989B17FA2C1710D70039441B /* AppsTab.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppsTab.swift; sourceTree = "<group>"; };
+		989B17FC2C17400A0039441B /* EditAppForm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditAppForm.swift; sourceTree = "<group>"; };
 		98F919352C12187500BDC10C /* Browserino.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = Browserino.icns; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -145,6 +147,7 @@
 			children = (
 				989B17F42C16FC690039441B /* ShortcutButton.swift */,
 				9830F0BA2C11DE8F00D69C88 /* PreferencesView.swift */,
+				989B17FC2C17400A0039441B /* EditAppForm.swift */,
 				989B17F22C16FC550039441B /* BrowsersTab.swift */,
 				989B17FA2C1710D70039441B /* AppsTab.swift */,
 				989B17F62C16FD260039441B /* GeneralTab.swift */,
@@ -231,6 +234,7 @@
 				989B17FB2C1710D70039441B /* AppsTab.swift in Sources */,
 				989B17F32C16FC550039441B /* BrowsersTab.swift in Sources */,
 				989B17F72C16FD260039441B /* GeneralTab.swift in Sources */,
+				989B17FD2C17400A0039441B /* EditAppForm.swift in Sources */,
 				989B17EF2C16F7640039441B /* PromptItem.swift in Sources */,
 				989B17F92C170C160039441B /* AboutTab.swift in Sources */,
 				9830F0BE2C11DEBB00D69C88 /* View+If.swift in Sources */,
@@ -387,7 +391,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MARKETING_VERSION = 1.1.0;
+				MARKETING_VERSION = 1.1.1;
 				PRODUCT_BUNDLE_IDENTIFIER = xyz.alexstrnik.Browserino;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -419,7 +423,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MARKETING_VERSION = 1.1.0;
+				MARKETING_VERSION = 1.1.1;
 				PRODUCT_BUNDLE_IDENTIFIER = xyz.alexstrnik.Browserino;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
