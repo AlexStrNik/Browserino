@@ -42,8 +42,8 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate {
     @objc func openPreferences() {
         if preferencesWindow == nil {
             preferencesWindow = NSWindow(
-                contentRect: NSRect(x: 0, y: 0, width: 500, height: 400),
-                styleMask: [.miniaturizable, .closable, .resizable, .titled],
+                contentRect: NSRect(x: 0, y: 0, width: 600, height: 400),
+                styleMask: [.miniaturizable, .closable, .titled],
                 backing: .buffered,
                 defer: false
             )
@@ -88,7 +88,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate {
         )
         
         selectorWindow!.contentView = NSHostingView(
-            rootView: SelectView(
+            rootView: PromptView(
                 urls: urls
             )
         )
