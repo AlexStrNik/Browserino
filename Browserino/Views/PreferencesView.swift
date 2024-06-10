@@ -64,6 +64,7 @@ struct RecordButton: View {
 
 struct PreferencesView: View {
     @AppStorage("browsers") private var browsers: [URL] = []
+    @State private var isDefault = false
     
     func loadBrowsers() -> [URL] {
         return NSWorkspace.shared.urlsForApplications(toOpen: URL(string: "https:")!)
@@ -109,15 +110,23 @@ struct PreferencesView: View {
                     Text("Rescan")
                 }
                 
-                if defaultBrowser() != "xyz.alexstrnik.Browserino" {
+                if !isDefault {
                     Button(action: {
-                        LSSetDefaultHandlerForURLScheme("http" as CFString, "xyz.alexstrnik.Browserino" as CFString)
+                        NSWorkspace.shared.setDefaultApplication(
+                            at: Bundle.main.bundleURL,
+                            toOpenURLsWithScheme: "http"
+                        ) { _ in
+                            isDefault = defaultBrowser() == "xyz.alexstrnik.Browserino"
+                        }
                     }) {
                         Text("Make default")
                     }
                 }
             }
             .padding(.horizontal, 20)
+            .onAppear {
+                isDefault = defaultBrowser() == "xyz.alexstrnik.Browserino"
+            }
             
             List {
                 ForEach(Array(browsers.enumerated()), id: \.offset) { offset, browser in
