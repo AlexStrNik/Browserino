@@ -15,13 +15,14 @@ class BrowserinoWindow: NSPanel {
     public convenience init() {
         self.init(
             contentRect: .init(x: 0, y: 0, width: Self.selectorWidth, height: Self.selectorHeight),
-            styleMask: [.nonactivatingPanel, .titled, .fullSizeContentView],
+            styleMask: [.nonactivatingPanel, .titled, .fullSizeContentView, .resizable],
             backing: .buffered,
             defer: false
         )
         
         self.titlebarAppearsTransparent = true
         self.titleVisibility = .hidden
+        self.minSize = NSSize(width: Self.selectorWidth, height: Self.selectorHeight)
         
         self.standardWindowButton(.miniaturizeButton)?.isHidden = true
         self.standardWindowButton(.closeButton)?.isHidden = true
