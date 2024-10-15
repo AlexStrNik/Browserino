@@ -9,6 +9,7 @@ import SwiftUI
 
 struct BrowsersTab: View {
     @AppStorage("browsers") private var browsers: [URL] = []
+    @AppStorage("hiddenBrowsers") private var hiddenBrowsers: [URL] = []
     
     func loadBrowsers() -> [URL] {
         return NSWorkspace.shared.urlsForApplications(toOpen: URL(string: "https:")!)
@@ -54,6 +55,21 @@ struct BrowsersTab: View {
                             ShortcutButton(
                                 browserId: bundle.bundleIdentifier!
                             )
+                            
+                            Spacer()
+                                .frame(width: 8)
+                            
+                            Button(action: {
+                                if let idx = hiddenBrowsers.firstIndex(of: browser) {
+                                    hiddenBrowsers.remove(at: idx)
+                                } else {
+                                    hiddenBrowsers.append(browser)
+                                }
+                            }) {
+                                Image(
+                                    systemName: hiddenBrowsers.contains(browser) ? "eye.slash.fill" : "eye.fill")
+                            }
+                            .buttonStyle(.plain)
                         }
                         .padding(10)
                     }

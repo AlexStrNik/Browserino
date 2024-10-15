@@ -10,6 +10,7 @@ import SwiftUI
 
 struct PromptView: View {
     @AppStorage("browsers") private var browsers: [URL] = []
+    @AppStorage("hiddenBrowsers") private var hiddenBrowsers: [URL] = []
     @AppStorage("apps") private var apps: [App] = []
     @AppStorage("shortcuts") private var shortcuts: [String: String] = [:]
     
@@ -28,6 +29,10 @@ struct PromptView: View {
         .filter {
             !browsers.contains($0.app)
         }
+    }
+    
+    var visibleBrowsers: [URL] {
+        browsers.filter { !hiddenBrowsers.contains($0) }
     }
     
     func openUrlsInApp(app: App) {
@@ -80,7 +85,7 @@ struct PromptView: View {
                             Divider()
                         }
                         
-                        ForEach(Array(browsers.enumerated()), id: \.offset) { index, browser in
+                        ForEach(Array(visibleBrowsers.enumerated()), id: \.offset) { index, browser in
                             if let bundle = Bundle(url: browser) {
                                 PromptItem(
                                     browser: browser,
@@ -113,7 +118,7 @@ struct PromptView: View {
                         scrollViewProxy.scrollTo(selected, anchor: .center)
                         return .handled
                     } else if press.key == KeyEquivalent.downArrow {
-                        selected = min(browsers.count + appsForUrls.count - 1, selected + 1)
+                        selected = min(visibleBrowsers.count + appsForUrls.count - 1, selected + 1)
                         scrollViewProxy.scrollTo(selected, anchor: .center)
                         return .handled
                     } else if press.key == KeyEquivalent.return {
