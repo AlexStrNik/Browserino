@@ -8,4 +8,4 @@ Inspired by great [Browserosaurus](https://github.com/will-stone/browserosaurus)
 
 # Installation
 
-Download Browserino-Installer from the [releases page](https://github.com/AlexStrNik/Browserino/releases)
+Download Browserino from the [releases page](https://github.com/AlexStrNik/Browserino/releases)
