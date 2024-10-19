@@ -35,6 +35,23 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate {
         }
     }
     
+    func application(_ application: NSApplication, willContinueUserActivityWithType userActivityType: String) -> Bool {
+        if userActivityType == NSUserActivityTypeBrowsingWeb {
+            return true
+        }
+        
+        return false
+    }
+    
+    func application(_ application: NSApplication, continue userActivity: NSUserActivity, restorationHandler: @escaping ([any NSUserActivityRestoring]) -> Void) -> Bool {
+        if let url = userActivity.webpageURL {
+            self.application(application, open: [url])
+            return true
+        }
+        
+        return false
+    }
+    
     @objc func quitApp() {
         NSApplication.shared.terminate(nil)
     }
