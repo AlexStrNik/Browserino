@@ -11,17 +11,6 @@ struct GeneralTab: View {
     @State private var isDefault = false
     @AppStorage("browsers") private var browsers: [URL] = []
     
-    func loadBrowsers() -> [URL] {
-        return NSWorkspace.shared.urlsForApplications(toOpen: URL(string: "https:")!)
-            .filter {
-                let pathComponents = $0.pathComponents
-                
-                return pathComponents[1] == "Applications" || pathComponents[pathComponents.count - 1] == "Safari.app"
-            }
-            .filter { Bundle(url: $0) != nil }
-            .filter { Bundle(url: $0)!.bundleIdentifier != Bundle.main.bundleIdentifier }
-    }
-    
     func defaultBrowser() -> String? {
         guard let browserUrl = NSWorkspace.shared.urlForApplication(toOpen: URL(string: "https:")!) else {
             return nil
@@ -63,7 +52,7 @@ struct GeneralTab: View {
                 
                 VStack(alignment: .leading) {
                     Button(action: {
-                        browsers = loadBrowsers()
+                        browsers = BrowserUtil.loadBrowsers()
                     }) {
                         Text("Rescan")
                     }

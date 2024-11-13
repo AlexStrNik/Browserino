@@ -10,18 +10,7 @@ import SwiftUI
 struct BrowsersTab: View {
     @AppStorage("browsers") private var browsers: [URL] = []
     @AppStorage("hiddenBrowsers") private var hiddenBrowsers: [URL] = []
-    
-    func loadBrowsers() -> [URL] {
-        return NSWorkspace.shared.urlsForApplications(toOpen: URL(string: "https:")!)
-            .filter {
-                let pathComponents = $0.pathComponents
-                
-                return pathComponents[1] == "Applications" || pathComponents[pathComponents.count - 1] == "Safari.app"
-            }
-            .filter { Bundle(url: $0) != nil }
-            .filter { Bundle(url: $0)!.bundleIdentifier != Bundle.main.bundleIdentifier }
-    }
-    
+
     func move(from source: IndexSet, to destination: Int) {
         browsers.move(fromOffsets: source, toOffset: destination)
     }
@@ -78,7 +67,7 @@ struct BrowsersTab: View {
             }
             .onAppear {
                 if browsers.isEmpty {
-                    browsers = loadBrowsers()
+                    browsers = BrowserUtil.loadBrowsers()
                 }
             }
             
