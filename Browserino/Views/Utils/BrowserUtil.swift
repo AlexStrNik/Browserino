@@ -9,12 +9,9 @@ import Foundation
 import SwiftUI
 
 class BrowserUtil {
-    @AppStorage("directories") private static var directoriesData: String = "[]"
+    @AppStorage("directories") private static var directories: [Directory] = []
 
     static func loadBrowsers() -> [URL] {
-        // Decode directories from AppStorage
-        let directories: [Directory] = decodeDirectories()
-
         // Convert directories to valid paths
         let validDirectories = directories.map { $0.directoryPath }
 
@@ -31,7 +28,7 @@ class BrowserUtil {
         }
 
         // Remove Browserino from the browser list
-        if let browserino = NSWorkspace.shared.urlForApplication(withBundleIdentifier: "xyz.alexstrnik.Browserino") {
+        if let browserino = NSWorkspace.shared.urlForApplication(withBundleIdentifier: Bundle.main.bundleIdentifier ?? "xyz.alexstrnik.Browserino") {
             if filteredUrlsForApplications.contains(browserino) {
                 filteredUrlsForApplications.removeAll { $0 == browserino }
             }
@@ -45,14 +42,5 @@ class BrowserUtil {
         }
 
         return filteredUrlsForApplications
-    }
-
-    private static func decodeDirectories() -> [Directory] {
-        guard let data = directoriesData.data(using: .utf8),
-              let directories = try? JSONDecoder().decode([Directory].self, from: data)
-        else {
-            return []
-        }
-        return directories
     }
 }

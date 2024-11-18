@@ -35,6 +35,12 @@ struct AboutTab: View {
             .buttonStyle(.link)
             
             Spacer()
+                .frame(height: 16)
+            
+            Text("Thanks to @byt3m4st3r and others for contributions!")
+                .foregroundStyle(.secondary)
+            
+            Spacer()
         }
     }
 }

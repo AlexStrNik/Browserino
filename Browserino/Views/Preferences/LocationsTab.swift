@@ -16,11 +16,14 @@ struct BrowserSearchLocations: View {
 
     var body: some View {
         HStack {
+            Text("Add new location by choosing directory")
+                .foregroundStyle(.secondary)
+                .frame(maxWidth: .infinity, alignment: .leading)
+            
             Button(action: {
                 explorerPresented.toggle()
             }) {
-                Image(
-                    systemName: "plus")
+                Text("Select directory")
             }
             .fileImporter(
                 isPresented: $explorerPresented,
@@ -48,12 +51,15 @@ struct DirectoryItem: View {
                 .font(.system(size: 14))
                 .frame(maxWidth: .infinity, alignment: .leading)
 
+            
             Button(action: {
                 deleteDirectory()
             }) {
                 Image(
                     systemName: "trash")
             }
+            .disabled(directory.directoryPath == "/Applications")
+            .buttonStyle(.plain)
         }
         .padding(10)
     }
@@ -66,17 +72,15 @@ struct DirectoryItem: View {
 }
 
 struct BrowserSearchLocationsTab: View {
-    @AppStorage("directories") private var directoriesData: String = "[]"
-    @State private var directories: [Directory] = []
+    @AppStorage("directories") private var directories: [Directory] = []
 
     var body: some View {
         VStack(alignment: .leading) {
             List {
-                BrowserSearchLocations(directories: $directories)
-
                 ForEach(Array($directories.enumerated()), id: \.offset) { _, directory in
                     DirectoryItem(directory: directory, directories: $directories)
                 }
+                BrowserSearchLocations(directories: $directories)
             }
 
             Text("Manage browser search locations (don't forget to rescan)")
@@ -85,29 +89,14 @@ struct BrowserSearchLocationsTab: View {
                 .frame(maxWidth: .infinity)
         }
         .onAppear(perform: loadDirectories)
-        .onChange(of: directories) {
-            updateDirectories(directories)
-        }
         .padding(.bottom, 20)
     }
 
     private func loadDirectories() {
-        if let data = directoriesData.data(using: .utf8) {
-            if let decoded = try? JSONDecoder().decode([Directory].self, from: data) {
-                directories = decoded
-            }
-        }
-
         // Always add "/Applications" as default browser search directory
         if directories.isEmpty {
             let defaultDirectory = Directory(directoryPath: "/Applications")
             directories.append(defaultDirectory)
-        }
-    }
-
-    private func updateDirectories(_: [Directory]) {
-        if let encoded = try? JSONEncoder().encode(directories) {
-            directoriesData = String(data: encoded, encoding: .utf8) ?? "[]"
         }
     }
 }
