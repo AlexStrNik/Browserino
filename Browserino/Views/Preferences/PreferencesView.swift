@@ -40,6 +40,12 @@ struct PreferencesView: View {
                 }
                 .tag(2)
             
+            BrowserSearchLocationsTab()
+                .tabItem {
+                    Label("Locations", systemImage: "gear")
+                }
+                .tag(2)
+
             AboutTab()
                 .tabItem {
                     Label("About", systemImage: "gear")
