@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		664FDF222CE4AA6B009766AA /* BrowserUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = 664FDF212CE4AA6B009766AA /* BrowserUtil.swift */; };
+		669247902CEB48A5006A8C8B /* BrowserSearchLocationsTab.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6692478F2CEB48A5006A8C8B /* BrowserSearchLocationsTab.swift */; };
 		9830F0A62C119A3000D69C88 /* BrowserinoApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9830F0A52C119A3000D69C88 /* BrowserinoApp.swift */; };
 		9830F0A82C119A3000D69C88 /* PromptView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9830F0A72C119A3000D69C88 /* PromptView.swift */; };
 		9830F0AA2C119A3100D69C88 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9830F0A92C119A3100D69C88 /* Assets.xcassets */; };
@@ -31,6 +32,7 @@
 
 /* Begin PBXFileReference section */
 		664FDF212CE4AA6B009766AA /* BrowserUtil.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrowserUtil.swift; sourceTree = "<group>"; };
+		6692478F2CEB48A5006A8C8B /* BrowserSearchLocationsTab.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrowserSearchLocationsTab.swift; sourceTree = "<group>"; };
 		9830F0A22C119A3000D69C88 /* Browserino.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Browserino.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9830F0A52C119A3000D69C88 /* BrowserinoApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrowserinoApp.swift; sourceTree = "<group>"; };
 		9830F0A72C119A3000D69C88 /* PromptView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PromptView.swift; sourceTree = "<group>"; };
@@ -163,6 +165,7 @@
 				989B17FA2C1710D70039441B /* AppsTab.swift */,
 				989B17F62C16FD260039441B /* GeneralTab.swift */,
 				989B17F82C170C160039441B /* AboutTab.swift */,
+				6692478F2CEB48A5006A8C8B /* BrowserSearchLocationsTab.swift */,
 			);
 			path = Preferences;
 			sourceTree = "<group>";
@@ -247,6 +250,7 @@
 				989B17F72C16FD260039441B /* GeneralTab.swift in Sources */,
 				989B17FD2C17400A0039441B /* EditAppForm.swift in Sources */,
 				989B17EF2C16F7640039441B /* PromptItem.swift in Sources */,
+				669247902CEB48A5006A8C8B /* BrowserSearchLocationsTab.swift in Sources */,
 				989B17F92C170C160039441B /* AboutTab.swift in Sources */,
 				9830F0BE2C11DEBB00D69C88 /* View+If.swift in Sources */,
 				989B17F52C16FC690039441B /* ShortcutButton.swift in Sources */,

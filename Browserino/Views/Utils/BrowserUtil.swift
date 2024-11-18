@@ -1,4 +1,3 @@
-//
 //  BrowserUtil.swift
 //  Browserino
 //
@@ -7,10 +6,18 @@
 
 import AppKit
 import Foundation
+import SwiftUI
 
 class BrowserUtil {
+    @AppStorage("directories") private static var directoriesData: String = "[]"
+
     static func loadBrowsers() -> [URL] {
-        // URL representing the "https" scheme which browsers can handle
+        // Decode directories from AppStorage
+        let directories: [Directory] = decodeDirectories()
+
+        // Convert directories to valid paths
+        let validDirectories = directories.map { $0.directoryPath }
+
         guard let url = URL(string: "https:") else {
             return []
         }
@@ -18,23 +25,34 @@ class BrowserUtil {
         // Fetch all applications that can open the https scheme
         let urlsForApplications = NSWorkspace.shared.urlsForApplications(toOpen: url)
 
-        let validDirectories = [
-            "/Applications",
-        ]
-
-        // Filter the browsers to include only those in the specified directories
+        // Filter the browsers to include only those in the specified browser search directories (/Applications default)
         var filteredUrlsForApplications = urlsForApplications.filter { urlsForApplication in
-            // Check if the browser's path starts with any of the valid directories
             validDirectories.contains { urlsForApplication.path.hasPrefix($0) }
         }
 
+        // Remove Browserino from the browser list
+        if let browserino = NSWorkspace.shared.urlForApplication(withBundleIdentifier: "xyz.alexstrnik.Browserino") {
+            if filteredUrlsForApplications.contains(browserino) {
+                filteredUrlsForApplications.removeAll { $0 == browserino }
+            }
+        }
+
         // Always include Safari by adding it explicitly if not already present
-        if let safariURL = NSWorkspace.shared.urlForApplication(withBundleIdentifier: "com.apple.Safari") {
-            if !filteredUrlsForApplications.contains(safariURL) {
-                filteredUrlsForApplications.append(safariURL)
+        if let safari = NSWorkspace.shared.urlForApplication(withBundleIdentifier: "com.apple.Safari") {
+            if !filteredUrlsForApplications.contains(safari) {
+                filteredUrlsForApplications.append(safari)
             }
         }
 
         return filteredUrlsForApplications
+    }
+
+    private static func decodeDirectories() -> [Directory] {
+        guard let data = directoriesData.data(using: .utf8),
+              let directories = try? JSONDecoder().decode([Directory].self, from: data)
+        else {
+            return []
+        }
+        return directories
     }
 }
