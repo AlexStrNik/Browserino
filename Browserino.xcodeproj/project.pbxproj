@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		664FDF222CE4AA6B009766AA /* BrowserUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = 664FDF212CE4AA6B009766AA /* BrowserUtil.swift */; };
 		9830F0A62C119A3000D69C88 /* BrowserinoApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9830F0A52C119A3000D69C88 /* BrowserinoApp.swift */; };
 		9830F0A82C119A3000D69C88 /* PromptView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9830F0A72C119A3000D69C88 /* PromptView.swift */; };
 		9830F0AA2C119A3100D69C88 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9830F0A92C119A3100D69C88 /* Assets.xcassets */; };
@@ -29,6 +30,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		664FDF212CE4AA6B009766AA /* BrowserUtil.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrowserUtil.swift; sourceTree = "<group>"; };
 		9830F0A22C119A3000D69C88 /* Browserino.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Browserino.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9830F0A52C119A3000D69C88 /* BrowserinoApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrowserinoApp.swift; sourceTree = "<group>"; };
 		9830F0A72C119A3000D69C88 /* PromptView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PromptView.swift; sourceTree = "<group>"; };
@@ -64,6 +66,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		664FDF202CE4A9E1009766AA /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				664FDF212CE4AA6B009766AA /* BrowserUtil.swift */,
+			);
+			path = Utils;
+			sourceTree = "<group>";
+		};
 		9830F0992C119A3000D69C88 = {
 			isa = PBXGroup;
 			children = (
@@ -109,6 +119,7 @@
 		9830F0B72C11B08B00D69C88 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				664FDF202CE4A9E1009766AA /* Utils */,
 				989B17F12C16FC420039441B /* Preferences */,
 				989B17F02C16FBDF0039441B /* Prompt */,
 				9830F0B82C11B09700D69C88 /* BlurredView.swift */,
@@ -241,6 +252,7 @@
 				989B17F52C16FC690039441B /* ShortcutButton.swift in Sources */,
 				9830F0C32C11DEED00D69C88 /* ButtonStyles.swift in Sources */,
 				9830F0B62C119CD800D69C88 /* main.swift in Sources */,
+				664FDF222CE4AA6B009766AA /* BrowserUtil.swift in Sources */,
 				9830F0B92C11B09700D69C88 /* BlurredView.swift in Sources */,
 				9830F0C72C11E87300D69C88 /* Array+RawRepresentable.swift in Sources */,
 			);
