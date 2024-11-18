@@ -8,7 +8,7 @@
 import SwiftUI
 
 class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate {
-    private var selectorWindow: NSWindow?
+    private var selectorWindow: BrowserinoWindow?
     private var preferencesWindow: NSWindow?
     
     var statusMenu: NSMenu!
@@ -106,6 +106,9 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate {
             )
         )
         
+        NSApplication.shared.activate(ignoringOtherApps: true)
+        selectorWindow!.deactivateDelay()
+        
         selectorWindow!.contentView = NSHostingView(
             rootView: PromptView(
                 urls: urls
@@ -122,8 +125,10 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate {
     }
     
     func windowDidResignKey(_ notification: Notification) {
-        selectorWindow!.contentView = nil
-        selectorWindow?.close()
+        if selectorWindow!.hidesOnDeactivate {
+            selectorWindow!.contentView = nil
+            selectorWindow!.close()
+        }
     }
     
     func getScreenWithMouse() -> NSScreen? {

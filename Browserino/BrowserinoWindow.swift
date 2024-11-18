@@ -31,8 +31,17 @@ class BrowserinoWindow: NSPanel {
         self.collectionBehavior = [.stationary, .ignoresCycle, .fullScreenAuxiliary, .canJoinAllSpaces]
         self.isOpaque = false
         self.level = NSWindow.Level(Int(CGShieldingWindowLevel()))
-        self.hidesOnDeactivate = true
         self.isMovable = false
+        self.deactivateDelay()
+    }
+    
+    func deactivateDelay() {
+        self.hidesOnDeactivate = false
+        DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(100)) {
+            NSApplication.shared.activate(ignoringOtherApps: true)
+            self.makeKeyAndOrderFront(nil)
+            self.hidesOnDeactivate = true
+        }
     }
 }
 
