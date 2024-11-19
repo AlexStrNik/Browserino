@@ -16,7 +16,7 @@ struct BrowserSearchLocations: View {
 
     var body: some View {
         HStack {
-            Text("Add new location by choosing directory")
+            Text("Add a new location by selecting a directory (use ⇧⌘G in the Finder to enter the path).")
                 .foregroundStyle(.secondary)
                 .frame(maxWidth: .infinity, alignment: .leading)
             

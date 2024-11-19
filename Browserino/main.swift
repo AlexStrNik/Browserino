@@ -8,11 +8,10 @@
 import Foundation
 import AppKit
 
-let app = NSApplication.shared
+let app = BrowserinoApplication.shared
 let delegate = AppDelegate()
 
 app.delegate = delegate
 app.setActivationPolicy(.accessory)
 
-// 2
 _ = NSApplicationMain(CommandLine.argc, CommandLine.unsafeArgv)

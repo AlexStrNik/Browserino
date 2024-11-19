@@ -91,7 +91,7 @@ struct AppItem: View {
                     .font(
                         .system(size: 14)
                     )
-                    .foregroundColor(.white)
+                    .foregroundStyle(.primary)
             }
             .buttonStyle(.plain)
             

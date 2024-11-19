@@ -75,7 +75,6 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate {
         
         preferencesWindow!.contentMinSize = NSSize(width: 700, height: 500)
         
-        preferencesWindow!.level = .floating
         preferencesWindow!.collectionBehavior = [.moveToActiveSpace, .fullScreenNone]
         
         NSApplication.shared.activate(ignoringOtherApps: true)
