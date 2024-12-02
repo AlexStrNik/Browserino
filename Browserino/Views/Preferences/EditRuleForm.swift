@@ -88,8 +88,6 @@ struct RuleForm: View {
     }
     
     var body: some View {
-        let bundle = rule.map { Bundle(url: $0.app)! }
-
         Form {
             Section(
                 header: Text("General")
@@ -132,7 +130,7 @@ struct RuleForm: View {
                     }
                 }
                 
-                if let bundle {
+                if let bundle = url.map({ Bundle(url: $0)! }) {
                     Text("\(bundle.infoDictionary!["CFBundleName"] as! String)")
                         .padding(.horizontal, 5)
                         .font(.callout)
