@@ -18,8 +18,6 @@ extension NSTableView {
 }
 
 struct PreferencesView: View {
-    @State private var selectedTab = 0
-    
     var body: some View {
         TabView {
             GeneralTab()
@@ -40,17 +38,23 @@ struct PreferencesView: View {
                 }
                 .tag(2)
             
+            RulesTab()
+                .tabItem {
+                    Label("Rules", systemImage: "gear")
+                }
+                .tag(3)
+            
             BrowserSearchLocationsTab()
                 .tabItem {
                     Label("Locations", systemImage: "gear")
                 }
-                .tag(2)
+                .tag(4)
 
             AboutTab()
                 .tabItem {
                     Label("About", systemImage: "gear")
                 }
-                .tag(2)
+                .tag(5)
         }
         .frame(minWidth: 700, minHeight: 500)
     }

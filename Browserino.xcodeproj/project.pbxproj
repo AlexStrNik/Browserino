@@ -21,6 +21,9 @@
 		9830F0C52C11DF2C00D69C88 /* BrowserinoWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9830F0C42C11DF2C00D69C88 /* BrowserinoWindow.swift */; };
 		9830F0C72C11E87300D69C88 /* Array+RawRepresentable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9830F0C62C11E87300D69C88 /* Array+RawRepresentable.swift */; };
 		986AC6242CECDB5000884C40 /* BrowserinoApplication.swift in Sources */ = {isa = PBXBuildFile; fileRef = 986AC6232CECDB4700884C40 /* BrowserinoApplication.swift */; };
+		986DC8072CFE42E300447DC7 /* RulesTab.swift in Sources */ = {isa = PBXBuildFile; fileRef = 986DC8062CFE42E000447DC7 /* RulesTab.swift */; };
+		986DC8092CFE42EB00447DC7 /* Rule.swift in Sources */ = {isa = PBXBuildFile; fileRef = 986DC8082CFE42EA00447DC7 /* Rule.swift */; };
+		986DC80C2CFE447600447DC7 /* EditRuleForm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 986DC80B2CFE447200447DC7 /* EditRuleForm.swift */; };
 		989B17EF2C16F7640039441B /* PromptItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 989B17EE2C16F7640039441B /* PromptItem.swift */; };
 		989B17F32C16FC550039441B /* BrowsersTab.swift in Sources */ = {isa = PBXBuildFile; fileRef = 989B17F22C16FC550039441B /* BrowsersTab.swift */; };
 		989B17F52C16FC690039441B /* ShortcutButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 989B17F42C16FC690039441B /* ShortcutButton.swift */; };
@@ -49,6 +52,9 @@
 		9830F0C42C11DF2C00D69C88 /* BrowserinoWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrowserinoWindow.swift; sourceTree = "<group>"; };
 		9830F0C62C11E87300D69C88 /* Array+RawRepresentable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Array+RawRepresentable.swift"; sourceTree = "<group>"; };
 		986AC6232CECDB4700884C40 /* BrowserinoApplication.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrowserinoApplication.swift; sourceTree = "<group>"; };
+		986DC8062CFE42E000447DC7 /* RulesTab.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RulesTab.swift; sourceTree = "<group>"; };
+		986DC8082CFE42EA00447DC7 /* Rule.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Rule.swift; sourceTree = "<group>"; };
+		986DC80B2CFE447200447DC7 /* EditRuleForm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditRuleForm.swift; sourceTree = "<group>"; };
 		989B17EE2C16F7640039441B /* PromptItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PromptItem.swift; sourceTree = "<group>"; };
 		989B17F22C16FC550039441B /* BrowsersTab.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrowsersTab.swift; sourceTree = "<group>"; };
 		989B17F42C16FC690039441B /* ShortcutButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShortcutButton.swift; sourceTree = "<group>"; };
@@ -144,6 +150,7 @@
 		986AC6262CECDD2500884C40 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				986DC8082CFE42EA00447DC7 /* Rule.swift */,
 				664FDF212CE4AA6B009766AA /* BrowserUtil.swift */,
 			);
 			path = Models;
@@ -161,6 +168,8 @@
 		989B17F12C16FC420039441B /* Preferences */ = {
 			isa = PBXGroup;
 			children = (
+				986DC80B2CFE447200447DC7 /* EditRuleForm.swift */,
+				986DC8062CFE42E000447DC7 /* RulesTab.swift */,
 				989B17F42C16FC690039441B /* ShortcutButton.swift */,
 				9830F0BA2C11DE8F00D69C88 /* PreferencesView.swift */,
 				989B17FC2C17400A0039441B /* EditAppForm.swift */,
@@ -249,8 +258,11 @@
 				9830F0A62C119A3000D69C88 /* BrowserinoApp.swift in Sources */,
 				9830F0C52C11DF2C00D69C88 /* BrowserinoWindow.swift in Sources */,
 				989B17FB2C1710D70039441B /* AppsTab.swift in Sources */,
+				986DC80C2CFE447600447DC7 /* EditRuleForm.swift in Sources */,
 				989B17F32C16FC550039441B /* BrowsersTab.swift in Sources */,
+				986DC8092CFE42EB00447DC7 /* Rule.swift in Sources */,
 				989B17F72C16FD260039441B /* GeneralTab.swift in Sources */,
+				986DC8072CFE42E300447DC7 /* RulesTab.swift in Sources */,
 				989B17FD2C17400A0039441B /* EditAppForm.swift in Sources */,
 				989B17EF2C16F7640039441B /* PromptItem.swift in Sources */,
 				669247902CEB48A5006A8C8B /* LocationsTab.swift in Sources */,
@@ -413,7 +425,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MARKETING_VERSION = 1.1.6;
+				MARKETING_VERSION = 1.1.7;
 				PRODUCT_BUNDLE_IDENTIFIER = xyz.alexstrnik.Browserino;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -447,7 +459,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MARKETING_VERSION = 1.1.6;
+				MARKETING_VERSION = 1.1.7;
 				PRODUCT_BUNDLE_IDENTIFIER = xyz.alexstrnik.Browserino;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;

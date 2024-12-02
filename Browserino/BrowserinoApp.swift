@@ -11,6 +11,8 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate {
     private var selectorWindow: BrowserinoWindow?
     private var preferencesWindow: NSWindow?
     
+    @AppStorage("rules") private var rules: [Rule] = []
+    
     var statusMenu: NSMenu!
     var statusBarItem: NSStatusItem!
     
@@ -84,6 +86,23 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate {
     }
     
     func application(_ application: NSApplication, open urls: [URL]) {
+        if urls.count == 1 {
+            let url = urls.first!.absoluteString
+
+            for rule in rules {
+                let regex = try? Regex(rule.regex).ignoresCase()
+                
+                if let regex, url.firstMatch(of: regex) != nil {
+                    NSWorkspace.shared.open(
+                        urls,
+                        withApplicationAt: rule.app,
+                        configuration: NSWorkspace.OpenConfiguration.init()
+                    )
+                    return
+                }
+            }
+        }
+        
         if selectorWindow == nil {
             selectorWindow = BrowserinoWindow()
         }
