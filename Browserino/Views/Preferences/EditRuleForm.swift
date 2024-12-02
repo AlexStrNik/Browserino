@@ -23,7 +23,7 @@ struct EditRuleForm: View {
                 rule = $0
                 isPresented.toggle()
             },
-            onDelete: { rule in
+            onDelete: {
                 rules.removeAll {
                     $0 == rule
                 }
@@ -48,10 +48,7 @@ struct NewRuleForm: View {
                 rules.append($0)
                 isPresented.toggle()
             },
-            onDelete: { rule in
-                rules.removeAll {
-                    $0 == rule
-                }
+            onDelete: {
                 isPresented.toggle()
             }
         )
@@ -63,11 +60,11 @@ struct RuleForm: View {
     
     var onCancel: () -> Void
     var onSave: (Rule) -> Void
-    var onDelete: (Rule) -> Void
+    var onDelete: () -> Void
 
     @State private var openWithPresented = false
     
-    @State private var regex: String = "github.com"
+    @State private var regex: String = ""
     @State private var testUrls: String = "https://github.com/AlexStrNik/Browserino\nhttps://x.com/alexstrnik"
     @State private var url: URL?
     
@@ -151,10 +148,10 @@ struct RuleForm: View {
                     Text("Cancel")
                 }
                 
-                Button(role: .destructive, action: {
-                    
-                }) {
-                    Text("Delete")
+                if rule != nil {
+                    Button(role: .destructive, action: onDelete) {
+                        Text("Delete")
+                    }
                 }
                 
                 Spacer()
