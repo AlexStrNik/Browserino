@@ -50,10 +50,10 @@ struct PromptView: View {
             }
         }
         
-        NSWorkspace.shared.open(
+        BrowserUtil.openURL(
             urls,
-            withApplicationAt: app.app,
-            configuration: NSWorkspace.OpenConfiguration()
+            app: app.app,
+            isIncognito: false
         )
     }
     
@@ -92,11 +92,11 @@ struct PromptView: View {
                                     urls: urls,
                                     bundle: bundle,
                                     shortcut: shortcuts[bundle.bundleIdentifier!]
-                                ){
-                                    NSWorkspace.shared.open(
+                                ) {
+                                    BrowserUtil.openURL(
                                         urls,
-                                        withApplicationAt: browser,
-                                        configuration: .init()
+                                        app: browser,
+                                        isIncognito: NSEvent.modifierFlags.contains(.shift)
                                     )
                                 }
                                 .id(appsForUrls.count + index)
@@ -125,10 +125,10 @@ struct PromptView: View {
                         if selected < appsForUrls.count {
                             openUrlsInApp(app: appsForUrls[selected])
                         } else {
-                            NSWorkspace.shared.open(
+                            BrowserUtil.openURL(
                                 urls,
-                                withApplicationAt: browsers[selected],
-                                configuration: NSWorkspace.OpenConfiguration.init()
+                                app: browsers[selected],
+                                isIncognito: press.modifiers.contains(.shift)
                             )
                         }
                         

@@ -93,10 +93,10 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate {
                 let regex = try? Regex(rule.regex).ignoresCase()
                 
                 if let regex, url.firstMatch(of: regex) != nil {
-                    NSWorkspace.shared.open(
+                    BrowserUtil.openURL(
                         urls,
-                        withApplicationAt: rule.app,
-                        configuration: NSWorkspace.OpenConfiguration.init()
+                        app: rule.app,
+                        isIncognito: false
                     )
                     return
                 }

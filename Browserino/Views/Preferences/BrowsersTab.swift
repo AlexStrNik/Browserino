@@ -10,9 +10,16 @@ import SwiftUI
 struct BrowsersTab: View {
     @AppStorage("browsers") private var browsers: [URL] = []
     @AppStorage("hiddenBrowsers") private var hiddenBrowsers: [URL] = []
+    @AppStorage("privateArgs") private var privateArgs: [String: String] = [:]
 
-    func move(from source: IndexSet, to destination: Int) {
+    private func move(from source: IndexSet, to destination: Int) {
         browsers.move(fromOffsets: source, toOffset: destination)
+    }
+    
+    private func privateArg(for key: String) -> Binding<String> {
+        return .init(
+            get: { self.privateArgs[key, default: ""] },
+            set: { self.privateArgs[key] = $0 })
     }
 
     var body: some View {
@@ -40,6 +47,18 @@ struct BrowsersTab: View {
                                 )
                             
                             Spacer()
+                                .frame(width: 32)
+                            
+                            TextField(
+                                "Private argument",
+                                text: privateArg(for: bundle.bundleIdentifier!)
+                            )
+                            .font(
+                                .system(size: 14).monospaced()
+                            )
+                            
+                            Spacer()
+                                .frame(width: 32)
                             
                             ShortcutButton(
                                 browserId: bundle.bundleIdentifier!

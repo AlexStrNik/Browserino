@@ -10,6 +10,7 @@ import SwiftUI
 
 class BrowserUtil {
     @AppStorage("directories") private static var directories: [Directory] = []
+    @AppStorage("privateArgs") private static var privateArgs: [String: String] = [:]
 
     static func loadBrowsers() -> [URL] {
         // Convert directories to valid paths
@@ -42,5 +43,24 @@ class BrowserUtil {
         }
 
         return filteredUrlsForApplications
+    }
+    
+    static func openURL(_ urls: [URL], app: URL, isIncognito: Bool) {
+        guard let bundle = Bundle(url: app) else {
+            return
+        }
+        
+        let configuration = NSWorkspace.OpenConfiguration()
+        
+        if isIncognito, let privateArg = privateArgs[bundle.bundleIdentifier!] {
+            configuration.createsNewApplicationInstance = true
+            configuration.arguments = [privateArg] + urls.map(\.absoluteString)
+        }
+        
+        NSWorkspace.shared.open(
+            isIncognito ? [] : urls,
+            withApplicationAt: app,
+            configuration: configuration
+        )
     }
 }

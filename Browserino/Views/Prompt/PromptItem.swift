@@ -50,10 +50,17 @@ struct PromptItem: View {
             .padding(8)
         }
         .if(shortcut != nil) {
-            $0.keyboardShortcut(
-                KeyEquivalent(shortcut!.first!),
-                modifiers: []
-            )
+            return $0.keyboardShortcut(
+                KeyEquivalent(shortcut!.lowercased().first!),
+                modifiers: [.shift]
+            ).background {
+                Button(action: action) {}
+                    .opacity(0)
+                    .keyboardShortcut(
+                        KeyEquivalent(shortcut!.lowercased().first!),
+                        modifiers: []
+                    )
+            }
         }
     }
 }
