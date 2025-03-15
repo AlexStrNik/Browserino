@@ -148,8 +148,19 @@ struct PromptView: View {
             Divider()
             
             if let host = urls.first?.host() {
-                Text(
-                    host
+                Button(action: {
+                    let pasteboard = NSPasteboard.general
+                    pasteboard.declareTypes([.string], owner: nil)
+                    pasteboard.setString(urls.first?.absoluteString ?? "", forType: .string)
+                }) {
+                    Text(
+                        host
+                    )
+                }
+                .buttonStyle(.plain)
+                .keyboardShortcut(
+                    KeyEquivalent("c"),
+                    modifiers: [.command, .option]
                 )
             }
         }
