@@ -112,13 +112,13 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate {
         selectorWindow?.setFrameOrigin(
             NSPoint(
                 x: clamp(
-                    min: 20,
-                    max: screen.width - BrowserinoWindow.selectorWidth - 20,
+                    min: screen.minX + 20,
+                    max: screen.maxX - BrowserinoWindow.selectorWidth - 20,
                     value: NSEvent.mouseLocation.x - BrowserinoWindow.selectorWidth / 2
                 ),
                 y: clamp(
-                    min: 20,
-                    max: screen.height - BrowserinoWindow.selectorHeight - 20,
+                    min: screen.minY + 20,
+                    max: screen.maxY - BrowserinoWindow.selectorHeight - 20,
                     value: NSEvent.mouseLocation.y - (BrowserinoWindow.selectorHeight - 30)
                 )
             )
