@@ -127,7 +127,7 @@ struct PromptView: View {
                         } else {
                             BrowserUtil.openURL(
                                 urls,
-                                app: browsers[selected],
+                                app: browsers[selected - appsForUrls.count],
                                 isIncognito: press.modifiers.contains(.shift)
                             )
                         }
