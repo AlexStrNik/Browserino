@@ -86,7 +86,9 @@ struct BrowsersTab: View {
             }
             .onAppear {
                 if browsers.isEmpty {
-                    browsers = BrowserUtil.loadBrowsers()
+                    browsers = BrowserUtil.loadBrowsers(
+                        oldBrowsers: browsers
+                    )
                 }
             }
             

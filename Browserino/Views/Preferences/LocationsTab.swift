@@ -93,7 +93,6 @@ struct BrowserSearchLocationsTab: View {
     }
 
     private func loadDirectories() {
-        // Always add "/Applications" as default browser search directory
         if directories.isEmpty {
             let defaultDirectory = Directory(directoryPath: "/Applications")
             directories.append(defaultDirectory)

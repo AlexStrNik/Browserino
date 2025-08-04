@@ -52,7 +52,9 @@ struct GeneralTab: View {
                 
                 VStack(alignment: .leading) {
                     Button(action: {
-                        browsers = BrowserUtil.loadBrowsers()
+                        browsers = BrowserUtil.loadBrowsers(
+                            oldBrowsers: browsers
+                        )
                     }) {
                         Text("Rescan")
                     }
