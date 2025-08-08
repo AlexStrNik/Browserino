@@ -110,32 +110,45 @@ struct PromptView: View {
                     }
                 }
                 .focusable()
-                .focusEffectDisabled()
+                .focusEffectDisabledCompat()
                 .focused($focused)
-                .onKeyPress { press in
-                    if press.key == KeyEquivalent.upArrow {
+                .onMoveCommand { command in
+                    if command == .up {
                         selected = max(0, selected - 1)
                         scrollViewProxy.scrollTo(selected, anchor: .center)
-                        return .handled
-                    } else if press.key == KeyEquivalent.downArrow {
+                    } else if command == .down {
                         selected = min(visibleBrowsers.count + appsForUrls.count - 1, selected + 1)
                         scrollViewProxy.scrollTo(selected, anchor: .center)
-                        return .handled
-                    } else if press.key == KeyEquivalent.return {
+                    }
+                }
+                .background {
+                    Button(action: {
                         if selected < appsForUrls.count {
                             openUrlsInApp(app: appsForUrls[selected])
                         } else {
                             BrowserUtil.openURL(
                                 urls,
                                 app: browsers[selected - appsForUrls.count],
-                                isIncognito: press.modifiers.contains(.shift)
+                                isIncognito: false
                             )
                         }
-                        
-                        return .handled
-                    }
+                    }) {}
+                    .opacity(0)
+                    .keyboardShortcut(.defaultAction)
                     
-                    return .ignored
+                    Button(action: {
+                        if selected < appsForUrls.count {
+                            openUrlsInApp(app: appsForUrls[selected])
+                        } else {
+                            BrowserUtil.openURL(
+                                urls,
+                                app: browsers[selected - appsForUrls.count],
+                                isIncognito: true
+                            )
+                        }
+                    }) {}
+                    .opacity(0)
+                    .keyboardShortcut(.return, modifiers: [.shift])
                 }
                 .onAppear {
                     focused.toggle()
