@@ -149,6 +149,12 @@ struct PromptView: View {
                     }) {}
                     .opacity(0)
                     .keyboardShortcut(.return, modifiers: [.shift])
+
+                    Button(action: {
+                        NSApplication.shared.keyWindow?.close()
+                    }) {}
+                    .opacity(0)
+                    .keyboardShortcut(.cancelAction)
                 }
                 .onAppear {
                     focused.toggle()
