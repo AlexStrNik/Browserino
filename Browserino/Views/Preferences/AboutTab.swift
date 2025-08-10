@@ -37,7 +37,7 @@ struct AboutTab: View {
             Spacer()
                 .frame(height: 16)
             
-            Text("Thanks to @byt3m4st3r and others for contributions!")
+            Text("Thanks to @byt3m4st3r, @mihado and others for contributions!")
                 .foregroundStyle(.secondary)
             
             Spacer()

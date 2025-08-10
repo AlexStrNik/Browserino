@@ -133,8 +133,8 @@ struct PromptView: View {
                             )
                         }
                     }) {}
-                    .opacity(0)
-                    .keyboardShortcut(.defaultAction)
+                        .opacity(0)
+                        .keyboardShortcut(.defaultAction)
                     
                     Button(action: {
                         if selected < appsForUrls.count {
@@ -147,14 +147,14 @@ struct PromptView: View {
                             )
                         }
                     }) {}
-                    .opacity(0)
-                    .keyboardShortcut(.return, modifiers: [.shift])
-
+                        .opacity(0)
+                        .keyboardShortcut(.return, modifiers: [.shift])
+                    
                     Button(action: {
                         NSApplication.shared.keyWindow?.close()
                     }) {}
-                    .opacity(0)
-                    .keyboardShortcut(.cancelAction)
+                        .opacity(0)
+                        .keyboardShortcut(.cancelAction)
                 }
                 .onAppear {
                     focused.toggle()
