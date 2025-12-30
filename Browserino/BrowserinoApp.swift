@@ -23,6 +23,11 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate {
         
         UserDefaults.standard.addObserver(self, forKeyPath: "showInMenuBar", options: [.new], context: nil)
         
+        // Migrate stored browsers from old format to new StoredBrowser representation
+        BrowserUtil.migrateStoredBrowsersIfNeeded()
+        // Migrate shortcuts keyed by bundle identifier to stored browser UUIDs
+        BrowserUtil.migrateShortcutsToStoredIds()
+
         if UserDefaults.standard.object(forKey: "browsers") == nil {
             openPreferences()
         }

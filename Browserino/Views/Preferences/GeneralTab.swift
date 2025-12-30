@@ -36,7 +36,7 @@ struct GeneralTab: View {
     @State private var showingExportPicker = false
     @State private var showingImportPicker = false
     @State private var exportDocument = SettingsDocument()
-    @AppStorage("browsers") private var browsers: [URL] = []
+    @AppStorage("browsers") private var browsers: [StoredBrowser] = []
     @AppStorage("copy_closeAfterCopy") private var closeAfterCopy: Bool = false
     @AppStorage("copy_alternativeShortcut") private var alternativeShortcut: Bool = false
     @AppStorage("showInMenuBar") private var showInMenuBar: Bool = true

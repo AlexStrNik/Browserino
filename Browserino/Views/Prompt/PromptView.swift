@@ -9,7 +9,7 @@ import AppKit
 import SwiftUI
 
 struct PromptView: View {
-    @AppStorage("browsers") private var browsers: [URL] = []
+    @AppStorage("browsers") private var browsers: [StoredBrowser] = []
     @AppStorage("hiddenBrowsers") private var hiddenBrowsers: [URL] = []
     @AppStorage("apps") private var apps: [App] = []
     @AppStorage("shortcuts") private var shortcuts: [String: String] = [:]
@@ -29,13 +29,15 @@ struct PromptView: View {
                 url.host() == app.host
             }
         }
-        .filter {
-            !browsers.contains($0.app)
+        .filter { app in
+            !browsers.contains(where: { $0.app == app.app })
         }
     }
 
-    var visibleBrowsers: [URL] {
-        browsers.filter { !hiddenBrowsers.contains($0) }
+    var visibleBrowsers: [StoredBrowser] {
+        browsers.filter { stored in
+            !stored.hidden && !hiddenBrowsers.contains(stored.app)
+        }
     }
 
     func openUrlsInApp(app: App) {
@@ -73,6 +75,7 @@ struct PromptView: View {
                                         browser: app.app,
                                         urls: urls,
                                         bundle: bundle,
+                                        title: nil,
                                         shortcut: shortcuts[bundle.bundleIdentifier!]
                                     ) {
                                         openUrlsInApp(app: app)
@@ -89,19 +92,20 @@ struct PromptView: View {
                             Divider()
                         }
 
-                        ForEach(Array(visibleBrowsers.enumerated()), id: \.offset) {
-                            index, browser in
-                            if let bundle = Bundle(url: browser) {
+                        ForEach(Array(visibleBrowsers.enumerated()), id: \.offset) { index, stored in
+                            if let bundle = Bundle(url: stored.app) {
                                 PromptItem(
-                                    browser: browser,
+                                    browser: stored.app,
                                     urls: urls,
                                     bundle: bundle,
-                                    shortcut: shortcuts[bundle.bundleIdentifier!]
+                                    title: stored.name,
+                                    shortcut: shortcuts[stored.id.uuidString]
                                 ) {
                                     BrowserUtil.openURL(
                                         urls,
-                                        app: browser,
-                                        isIncognito: NSEvent.modifierFlags.contains(.shift)
+                                        app: stored.app,
+                                        isIncognito: NSEvent.modifierFlags.contains(.shift),
+                                        privateArg: stored.privateArg
                                     )
                                 }
                                 .id(appsForUrls.count + index)
@@ -131,10 +135,12 @@ struct PromptView: View {
                         if selected < appsForUrls.count {
                             openUrlsInApp(app: appsForUrls[selected])
                         } else {
+                            let stored = visibleBrowsers[selected - appsForUrls.count]
                             BrowserUtil.openURL(
                                 urls,
-                                app: browsers[selected - appsForUrls.count],
-                                isIncognito: false
+                                app: stored.app,
+                                isIncognito: false,
+                                privateArg: stored.privateArg
                             )
                         }
                     }) {}
@@ -145,10 +151,12 @@ struct PromptView: View {
                         if selected < appsForUrls.count {
                             openUrlsInApp(app: appsForUrls[selected])
                         } else {
+                            let stored = visibleBrowsers[selected - appsForUrls.count]
                             BrowserUtil.openURL(
                                 urls,
-                                app: browsers[selected - appsForUrls.count],
-                                isIncognito: true
+                                app: stored.app,
+                                isIncognito: true,
+                                privateArg: stored.privateArg
                             )
                         }
                     }) {}

@@ -1,5 +1,5 @@
 //
-//  View+ScrollClipDisabled.swift
+//  View+ScrollEdgeDisabled.swift
 //  Browserino
 //
 //  Created by Aleksandr Strizhnev on 03.09.2025.
@@ -13,7 +13,7 @@ extension View {
         if #available(macOS 26.0, *) {
             self
                 .scrollEdgeEffectStyle(.soft, for: .all)
-                .scrollEdgeEffectDisabled(true, for: .all)
+                .scrollEdgeEffectHidden( for: .all)
         } else {
             self
         }

@@ -11,13 +11,14 @@ struct PromptItem: View {
     var browser: URL
     var urls: [URL]
     var bundle: Bundle
+    var title: String? = nil
     var shortcut: String?
     var action: () -> Void
     
     var body: some View {
         Button(action: action) {
             HStack {
-                Text(bundle.infoDictionary!["CFBundleName"] as! String)
+                Text(title ?? (bundle.infoDictionary!["CFBundleName"] as! String))
                     .font(
                         .system(size: 12, weight: .bold)
                     )
