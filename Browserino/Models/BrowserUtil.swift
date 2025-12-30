@@ -73,22 +73,56 @@ class BrowserUtil {
         let configuration = NSWorkspace.OpenConfiguration()
         
         // prefer passed privateArg, otherwise fall back to stored privateArgs mapping
-        let useArg = privateArg ?? privateArgs[bundle.bundleIdentifier!]
-        if let useArg = useArg, !useArg.isEmpty {
-            if isIncognito {
-                configuration.createsNewApplicationInstance = true
-                configuration.arguments = [useArg] + urls.map(\.absoluteString)
-            } else {
-                // pass private arg even when not incognito; URLs will be opened normally
-                configuration.arguments = [useArg]
+        let bundleId = bundle.bundleIdentifier
+        let storedArg = privateArg ?? (bundleId.flatMap { privateArgs[$0] })
+
+        // Build argument list: include stored/private arg and optionally an incognito flag
+        var args: [String] = []
+        if let s = storedArg, !s.isEmpty {
+            args.append(s)
+        }
+
+        if isIncognito {
+            if let inc = incognitoArg(for: bundleId), !args.contains(inc) {
+                args.append(inc)
             }
         }
-        
-        NSWorkspace.shared.open(
-            isIncognito ? [] : urls,
-            withApplicationAt: app,
-            configuration: configuration
-        )
+
+        if !args.isEmpty {
+            // When we have arguments (e.g. --profile-directory or --incognito),
+            // pass the arguments and URLs as process args. For profile args we
+            // must create a new application instance so the flag is respected.
+            configuration.arguments = args + urls.map(\.absoluteString)
+            configuration.createsNewApplicationInstance = (storedArg != nil && !storedArg!.isEmpty)
+
+            NSWorkspace.shared.open(
+                [],
+                withApplicationAt: app,
+                configuration: configuration
+            )
+        } else {
+            NSWorkspace.shared.open(
+                isIncognito ? [] : urls,
+                withApplicationAt: app,
+                configuration: configuration
+            )
+        }
+    }
+
+    private static func incognitoArg(for bundleId: String?) -> String? {
+        guard let id = bundleId else { return nil }
+
+        // Common incognito/private flags for popular browsers
+        switch id {
+        case "com.google.Chrome", "com.google.Chrome.canary", "com.google.Chrome.beta", "com.brave.Browser":
+            return "--incognito"
+        case "org.mozilla.firefox":
+            return "-private-window"
+        case "com.microsoft.edgemac":
+            return "--inprivate"
+        default:
+            return nil
+        }
     }
 
     // MARK: - StoredBrowser persistence & migration
