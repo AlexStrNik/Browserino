@@ -146,7 +146,8 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate {
                     BrowserUtil.openURL(
                         processedUrls,
                         app: rule.app,
-                        isIncognito: false
+                        isIncognito: false,
+                        profileDirectory: rule.profileDirectory
                     )
                     return
                 }

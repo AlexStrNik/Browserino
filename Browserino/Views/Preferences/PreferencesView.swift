@@ -31,30 +31,36 @@ struct PreferencesView: View {
                     Label("Browsers", systemImage: "gear")
                 }
                 .tag(1)
-            
+
+            ProfilesTab()
+                .tabItem {
+                    Label("Profiles", systemImage: "gear")
+                }
+                .tag(2)
+
             AppsTab()
                 .tabItem {
                     Label("Apps", systemImage: "gear")
                 }
-                .tag(2)
-            
+                .tag(3)
+
             RulesTab()
                 .tabItem {
                     Label("Rules", systemImage: "gear")
                 }
-                .tag(3)
-            
+                .tag(4)
+
             BrowserSearchLocationsTab()
                 .tabItem {
                     Label("Locations", systemImage: "gear")
                 }
-                .tag(4)
+                .tag(5)
 
             AboutTab()
                 .tabItem {
                     Label("About", systemImage: "gear")
                 }
-                .tag(5)
+                .tag(6)
         }
         .frame(minWidth: 700, minHeight: 500)
     }

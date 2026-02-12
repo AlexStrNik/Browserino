@@ -10,4 +10,5 @@ import Foundation
 struct Rule: Hashable, Codable {
     var regex: String
     var app: URL
+    var profileDirectory: String? = nil
 }

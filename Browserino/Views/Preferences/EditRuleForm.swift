@@ -57,16 +57,19 @@ struct NewRuleForm: View {
 
 struct RuleForm: View {
     var rule: Rule?
-    
+
     var onCancel: () -> Void
     var onSave: (Rule) -> Void
     var onDelete: () -> Void
 
+    @AppStorage("chromeProfiles") private var chromeProfiles: [ChromeProfile] = []
+
     @State private var openWithPresented = false
-    
+
     @State private var regex: String = ""
     @State private var testUrls: String = "https://github.com/AlexStrNik/Browserino\nhttps://x.com/alexstrnik"
     @State private var url: URL?
+    @State private var profileDirectory: String? = nil
     
     private var compiledRegex: Regex<AnyRegexOutput>? {
         return try? Regex(regex).ignoresCase()
@@ -137,7 +140,21 @@ struct RuleForm: View {
                         .foregroundStyle(.secondary)
                 }
             }
-            
+
+            if let bundle = url.flatMap({ Bundle(url: $0) }),
+               bundle.bundleIdentifier == ChromeProfileUtil.chromeBundleID,
+               !chromeProfiles.isEmpty {
+                LabeledContent("Profile:") {
+                    Picker("", selection: $profileDirectory) {
+                        Text("None").tag(nil as String?)
+                        ForEach(chromeProfiles, id: \.directoryName) { profile in
+                            Text(profile.displayName).tag(profile.directoryName as String?)
+                        }
+                    }
+                    .frame(width: 200)
+                }
+            }
+
             Spacer()
                 .frame(height: 32)
             
@@ -158,11 +175,12 @@ struct RuleForm: View {
                     guard let url else {
                         return
                     }
-                    
+
                     onSave(
                         Rule(
                             regex: regex,
-                            app: url
+                            app: url,
+                            profileDirectory: profileDirectory
                         )
                     )
                 }) {
@@ -177,6 +195,7 @@ struct RuleForm: View {
         .onAppear {
             regex = rule?.regex ?? ""
             url = rule?.app
+            profileDirectory = rule?.profileDirectory
         }
     }
 }

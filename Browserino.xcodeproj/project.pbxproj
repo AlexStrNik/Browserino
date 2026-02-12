@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		AA00010B2F0C700100FC6D37 /* ChromeProfile.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA00010A2F0C700100FC6D37 /* ChromeProfile.swift */; };
+		AA00010D2F0C700100FC6D37 /* ProfilesTab.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA00010C2F0C700100FC6D37 /* ProfilesTab.swift */; };
 		664FDF222CE4AA6B009766AA /* BrowserUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = 664FDF212CE4AA6B009766AA /* BrowserUtil.swift */; };
 		669247902CEB48A5006A8C8B /* LocationsTab.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6692478F2CEB48A5006A8C8B /* LocationsTab.swift */; };
 		9830F0A62C119A3000D69C88 /* BrowserinoApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9830F0A52C119A3000D69C88 /* BrowserinoApp.swift */; };
@@ -40,6 +42,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		AA00010A2F0C700100FC6D37 /* ChromeProfile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChromeProfile.swift; sourceTree = "<group>"; };
+		AA00010C2F0C700100FC6D37 /* ProfilesTab.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfilesTab.swift; sourceTree = "<group>"; };
 		664FDF212CE4AA6B009766AA /* BrowserUtil.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrowserUtil.swift; sourceTree = "<group>"; };
 		6692478F2CEB48A5006A8C8B /* LocationsTab.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationsTab.swift; sourceTree = "<group>"; };
 		9830F0A22C119A3000D69C88 /* Browserino.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Browserino.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -165,6 +169,7 @@
 		986AC6262CECDD2500884C40 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				AA00010A2F0C700100FC6D37 /* ChromeProfile.swift */,
 				986DC8082CFE42EA00447DC7 /* Rule.swift */,
 				664FDF212CE4AA6B009766AA /* BrowserUtil.swift */,
 			);
@@ -189,6 +194,7 @@
 				9830F0BA2C11DE8F00D69C88 /* PreferencesView.swift */,
 				989B17FC2C17400A0039441B /* EditAppForm.swift */,
 				989B17F22C16FC550039441B /* BrowsersTab.swift */,
+				AA00010C2F0C700100FC6D37 /* ProfilesTab.swift */,
 				989B17FA2C1710D70039441B /* AppsTab.swift */,
 				989B17F62C16FD260039441B /* GeneralTab.swift */,
 				989B17F82C170C160039441B /* AboutTab.swift */,
@@ -268,6 +274,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AA00010B2F0C700100FC6D37 /* ChromeProfile.swift in Sources */,
+				AA00010D2F0C700100FC6D37 /* ProfilesTab.swift in Sources */,
 				9830F0BB2C11DE8F00D69C88 /* PreferencesView.swift in Sources */,
 				9830F0A82C119A3000D69C88 /* PromptView.swift in Sources */,
 				9830F0A62C119A3000D69C88 /* BrowserinoApp.swift in Sources */,

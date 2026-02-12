@@ -64,20 +64,31 @@ class BrowserUtil {
         return filteredUrlsForApplications
     }
     
-    static func openURL(_ urls: [URL], app: URL, isIncognito: Bool) {
+    static func openURL(_ urls: [URL], app: URL, isIncognito: Bool, profileDirectory: String? = nil) {
         guard let bundle = Bundle(url: app) else {
             return
         }
-        
+
         let configuration = NSWorkspace.OpenConfiguration()
-        
-        if isIncognito, let privateArg = privateArgs[bundle.bundleIdentifier!] {
-            configuration.createsNewApplicationInstance = true
-            configuration.arguments = [privateArg] + urls.map(\.absoluteString)
+        let isChrome = bundle.bundleIdentifier == ChromeProfileUtil.chromeBundleID
+
+        var args: [String] = []
+
+        if let profileDirectory, isChrome {
+            args.append("--profile-directory=\(profileDirectory)")
         }
-        
+
+        if isIncognito, let privateArg = privateArgs[bundle.bundleIdentifier!] {
+            args.append(privateArg)
+        }
+
+        if !args.isEmpty {
+            configuration.createsNewApplicationInstance = true
+            configuration.arguments = args + urls.map(\.absoluteString)
+        }
+
         NSWorkspace.shared.open(
-            isIncognito ? [] : urls,
+            args.isEmpty ? urls : [],
             withApplicationAt: app,
             configuration: configuration
         )
