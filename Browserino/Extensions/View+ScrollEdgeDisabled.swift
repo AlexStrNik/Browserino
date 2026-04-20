@@ -11,9 +11,7 @@ extension View {
     @ViewBuilder
     func scrollEdgeEffectDisabledCompat() -> some View {
         if #available(macOS 26.0, *) {
-            self
-                .scrollEdgeEffectStyle(.soft, for: .all)
-                .scrollEdgeEffectDisabled(true, for: .all)
+            self.scrollEdgeEffectStyle(.soft, for: .all)
         } else {
             self
         }
