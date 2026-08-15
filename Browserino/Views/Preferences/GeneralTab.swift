@@ -8,16 +8,17 @@
 import SwiftUI
 import UniformTypeIdentifiers
 import ServiceManagement
+import KeyboardShortcuts
 
 struct SettingsDocument: FileDocument {
     static var readableContentTypes: [UTType] { [.json] }
-    
+
     var settings: [String: Any]
-    
+
     init(settings: [String: Any] = [:]) {
         self.settings = settings
     }
-    
+
     init(configuration: ReadConfiguration) throws {
         guard let data = configuration.file.regularFileContents,
               let jsonObject = try JSONSerialization.jsonObject(with: data) as? [String: Any] else {
@@ -25,7 +26,7 @@ struct SettingsDocument: FileDocument {
         }
         self.settings = jsonObject
     }
-    
+
     func fileWrapper(configuration: WriteConfiguration) throws -> FileWrapper {
         let data = try JSONSerialization.data(withJSONObject: settings, options: .prettyPrinted)
         return .init(regularFileWithContents: data)
@@ -43,19 +44,20 @@ struct GeneralTab: View {
     @AppStorage("copy_alternativeShortcut") private var alternativeShortcut: Bool = false
     @AppStorage("showInMenuBar") private var showInMenuBar: Bool = true
     @AppStorage("apps_atTop") private var appsAtTop: Bool = true
-    
+    @AppStorage("switch_closeSourceTab") private var closeSourceTab: Bool = true
+
     func defaultBrowser() -> String? {
         guard let browserUrl = NSWorkspace.shared.urlForApplication(toOpen: URL(string: "https:")!) else {
             return nil
         }
-        
+
         return Bundle(url: browserUrl)?.bundleIdentifier
     }
-    
+
     func exportSettings() {
         let defaults = UserDefaults.standard
         let dictionary = defaults.dictionaryRepresentation()
-        
+
         let filteredSettings = dictionary.filter { key, _ in
             !key.contains("NS") &&
             !key.contains("com.apple.") &&
@@ -70,46 +72,46 @@ struct GeneralTab: View {
             key != "WebAutomaticSpellingCorrectionEnabled" &&
             key != "Country"
         }
-        
+
         var appSettings: [String: Any] = [:]
         for (key, value) in filteredSettings {
             appSettings[key] = value
         }
-        
+
         print(appSettings)
-        
+
         exportDocument = SettingsDocument(settings: appSettings)
         showingExportPicker = true
     }
-    
+
     func importSettings(from url: URL) {
         do {
             let data = try Data(contentsOf: url)
             let settings = try JSONSerialization.jsonObject(with: data) as? [String: Any]
-            
+
             guard let settings = settings else {
                 print("Invalid settings format")
                 return
             }
-            
+
             let defaults = UserDefaults.standard
             for (key, value) in settings {
                 defaults.set(value, forKey: key)
             }
-            
+
             print("Settings imported successfully")
         } catch {
             print("Failed to import settings: \(error.localizedDescription)")
         }
     }
-    
+
     var body: some View {
         VStack(alignment: .leading, spacing: 16) {
             HStack(alignment: .top, spacing: 32) {
                 Text("Default browser")
                     .font(.headline)
                     .frame(width: 200, alignment: .trailing)
-                
+
                 VStack(alignment: .leading) {
                     Button(action: {
                         NSWorkspace.shared.setDefaultApplication(
@@ -122,18 +124,18 @@ struct GeneralTab: View {
                         Text("Make default")
                     }
                     .disabled(isDefault)
-                    
+
                     Text("Make Browserino default browser to use it")
                         .font(.callout)
                         .opacity(0.5)
                 }
             }
-            
+
             HStack(alignment: .top, spacing: 32) {
                 Text("Installed Browsers")
                     .font(.headline)
                     .frame(width: 200, alignment: .trailing)
-                
+
                 VStack(alignment: .leading) {
                     Button(action: {
                         browsers = BrowserUtil.loadBrowsers(
@@ -142,25 +144,25 @@ struct GeneralTab: View {
                     }) {
                         Text("Rescan")
                     }
-                    
+
                     Text("Rescan list of installed browsers")
                         .font(.callout)
                         .opacity(0.5)
                 }
             }
-            
+
             HStack(alignment: .top, spacing: 32) {
                 Text("Copy URL")
                     .font(.headline)
                     .frame(width: 200, alignment: .trailing)
-                
+
                 VStack(alignment: .leading) {
                     Toggle(isOn: $closeAfterCopy) {
                         Text("Close prompt view after copying URL")
                             .font(.callout)
                             .opacity(0.5)
                     }
-                    
+
                     Toggle(isOn: $alternativeShortcut) {
                         Text("Use Command+C instead of Command+Option+C")
                             .font(.callout)
@@ -168,19 +170,43 @@ struct GeneralTab: View {
                     }
                 }
             }
-            
+
+            HStack(alignment: .top, spacing: 32) {
+                Text("Tab switching")
+                    .font(.headline)
+                    .frame(width: 200, alignment: .trailing)
+
+                VStack(alignment: .leading, spacing: 8) {
+                    HStack {
+                        Text("Move current tab")
+                            .font(.callout)
+                        KeyboardShortcuts.Recorder(for: .moveCurrentTab)
+                    }
+
+                    Toggle(isOn: $closeSourceTab) {
+                        Text("Close the original tab after opening the destination")
+                            .font(.callout)
+                            .opacity(0.5)
+                    }
+
+                    Text("macOS will ask for permission to control each browser the first time you move a tab.")
+                        .font(.callout)
+                        .opacity(0.5)
+                }
+            }
+
             HStack(alignment: .top, spacing: 32) {
                 Text("Appearance")
                     .font(.headline)
                     .frame(width: 200, alignment: .trailing)
-                
+
                 VStack(alignment: .leading) {
                     Toggle(isOn: $appsAtTop) {
                         Text("Show apps before browsers")
                             .font(.callout)
                             .opacity(0.5)
                     }
-                    
+
                     Toggle(isOn: $showInMenuBar) {
                         Text("Show Browserino in menu bar")
                             .font(.callout)
@@ -188,7 +214,7 @@ struct GeneralTab: View {
                     }
                 }
             }
-            
+
             HStack(alignment: .top, spacing: 32) {
                 Text("Startup")
                     .font(.headline)
@@ -218,35 +244,35 @@ struct GeneralTab: View {
                 Text("Import/Export")
                     .font(.headline)
                     .frame(width: 200, alignment: .trailing)
-                
+
                 VStack(alignment: .leading) {
                     Button(action: {
                         exportSettings()
                     }) {
                         Text("Export")
                     }
-                    
+
                     Text("Export all settings")
                         .font(.callout)
                         .opacity(0.5)
-                    
+
                     Button(action: {
                         showingImportPicker = true
                     }) {
                         Text("Import")
                     }
-                    
+
                     Text("Import all settings")
                         .font(.callout)
                         .opacity(0.5)
                 }
             }
-            
+
             HStack(alignment: .top, spacing: 32) {
                 Text("System reset")
                     .font(.headline)
                     .frame(width: 200, alignment: .trailing)
-                
+
                 VStack(alignment: .leading) {
                     Button(action: {
                         let defaults = UserDefaults.standard
@@ -257,7 +283,7 @@ struct GeneralTab: View {
                     }) {
                         Text("Reset")
                     }
-                    
+
                     Text("Reset all preferences")
                         .font(.callout)
                         .opacity(0.5)

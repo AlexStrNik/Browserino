@@ -7,22 +7,30 @@
 
 import SwiftUI
 import Foundation
+import KeyboardShortcuts
 
-class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate {
+class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate, BrowserSwitchPresenting {
     private var selectorWindow: BrowserinoWindow?
     private var preferencesWindow: NSWindow?
-    
+
     @AppStorage("rules") private var rules: [Rule] = []
     @AppStorage("showInMenuBar") private var showInMenuBar: Bool = true
-    
+
     var statusMenu: NSMenu!
     var statusBarItem: NSStatusItem!
-    
+
     func applicationDidFinishLaunching(_ aNotification: Notification) {
+        BrowserSwitchService.shared.presenter = self
+        BrowserSwitchService.shared.startTracking()
+
+        KeyboardShortcuts.onKeyDown(for: .moveCurrentTab) {
+            BrowserSwitchService.shared.beginMove(preferFrontmost: true)
+        }
+
         setupStatusBar()
-        
+
         UserDefaults.standard.addObserver(self, forKeyPath: "showInMenuBar", options: [.new], context: nil)
-        
+
         if UserDefaults.standard.object(forKey: "browsers") == nil {
             openPreferences()
         }
@@ -32,23 +40,26 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate {
         self.openPreferences()
         return true
     }
-    
+
     func setupStatusBar() {
         if showInMenuBar {
             if statusBarItem == nil {
                 statusBarItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.variableLength)
                 let statusButton = statusBarItem!.button
                 statusButton!.image = NSImage.menuIcon
-                
+
+                let moveTab = NSMenuItem(title: "Move Current Tab…", action: #selector(moveCurrentTab), keyEquivalent: "")
                 let preferences = NSMenuItem(title: "Preferences...", action: #selector(openPreferences), keyEquivalent: "")
                 let quit = NSMenuItem(title: "Quit", action: #selector(quitApp), keyEquivalent: "")
-                
+
                 statusMenu = NSMenu()
-                
+
+                statusMenu!.addItem(moveTab)
+                statusMenu!.addItem(.separator())
                 statusMenu!.addItem(preferences)
                 statusMenu!.addItem(.separator())
                 statusMenu!.addItem(quit)
-                
+
                 statusBarItem!.menu = statusMenu!
             }
         } else {
@@ -58,39 +69,59 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate {
             }
         }
     }
-    
+
     override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
         if keyPath == "showInMenuBar" {
             setupStatusBar()
             NSApp.setActivationPolicy(.accessory)
         }
     }
-    
+
     deinit {
         UserDefaults.standard.removeObserver(self, forKeyPath: "showInMenuBar")
     }
-    
+
     func application(_ application: NSApplication, willContinueUserActivityWithType userActivityType: String) -> Bool {
         if userActivityType == NSUserActivityTypeBrowsingWeb {
             return true
         }
-        
+
         return false
     }
-    
+
     func application(_ application: NSApplication, continue userActivity: NSUserActivity, restorationHandler: @escaping ([any NSUserActivityRestoring]) -> Void) -> Bool {
         if let url = userActivity.webpageURL {
             self.application(application, open: [url])
             return true
         }
-        
+
         return false
     }
-    
+
     @objc func quitApp() {
         NSApplication.shared.terminate(nil)
     }
-    
+
+    @objc func moveCurrentTab() {
+        BrowserSwitchService.shared.beginMove(preferFrontmost: false)
+    }
+
+    func presentMovePrompt(url: URL, source: NSRunningApplication) {
+        let browsers = UserDefaults.standard.string(forKey: "browsers").flatMap { [URL](rawValue: $0) } ?? []
+        let hidden = UserDefaults.standard.string(forKey: "hiddenBrowsers").flatMap { [URL](rawValue: $0) } ?? []
+        let destinations = browsers.filter { browser in
+            !hidden.contains(browser)
+                && Bundle(url: browser)?.bundleIdentifier != source.bundleIdentifier
+        }
+
+        guard !destinations.isEmpty else {
+            BrowserSwitchService.shared.presentNoDestinationAlert()
+            return
+        }
+
+        presentSelector(urls: [url], mode: .move(source: source))
+    }
+
     @objc func openPreferences() {
         if preferencesWindow == nil {
             preferencesWindow = NSWindow(
@@ -100,30 +131,30 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate {
                 defer: false
             )
         }
-        
+
         preferencesWindow!.center()
         preferencesWindow!.title = "Preferences"
         preferencesWindow!.contentView = NSHostingView(rootView: PreferencesView())
-        
+
         preferencesWindow!.isReleasedWhenClosed = false
         preferencesWindow!.titlebarAppearsTransparent = true
-        
+
         preferencesWindow!.contentMinSize = NSSize(width: 700, height: 500)
-        
+
         preferencesWindow!.collectionBehavior = [.moveToActiveSpace, .fullScreenNone]
-        
+
         NSApplication.shared.activate(ignoringOtherApps: true)
-        
+
         preferencesWindow!.makeKeyAndOrderFront(nil)
         preferencesWindow!.orderFrontRegardless()
     }
-    
+
     func application(_ application: NSApplication, open urls: [URL]) {
         var processedUrls = urls
-        
+
         if urls.count == 1 {
             let url = urls.first!
-            
+
             if url.scheme == "browserino" && url.host == "open" {
                 if let components = URLComponents(url: url, resolvingAgainstBaseURL: false),
                    let queryItems = components.queryItems,
@@ -136,12 +167,12 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate {
                     return
                 }
             }
-            
+
             let urlString = processedUrls.first!.absoluteString
 
             for rule in rules {
                 let regex = try? Regex(rule.regex).ignoresCase()
-                
+
                 if let regex, urlString.firstMatch(of: regex) != nil {
                     BrowserUtil.openURL(
                         processedUrls,
@@ -152,13 +183,17 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate {
                 }
             }
         }
-        
+
+        presentSelector(urls: processedUrls, mode: .open)
+    }
+
+    func presentSelector(urls: [URL], mode: PromptMode) {
         if selectorWindow == nil {
             selectorWindow = BrowserinoWindow()
         }
-        
+
         let screen = getScreenWithMouse()!.visibleFrame
-        
+
         selectorWindow?.setFrameOrigin(
             NSPoint(
                 x: clamp(
@@ -173,37 +208,38 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate {
                 )
             )
         )
-        
+
         NSApplication.shared.activate(ignoringOtherApps: true)
         selectorWindow!.deactivateDelay()
-        
+
         selectorWindow!.contentView = NSHostingView(
             rootView: PromptView(
-                urls: processedUrls
+                urls: urls,
+                mode: mode
             )
         )
-        
+
         selectorWindow!.makeKeyAndOrderFront(nil)
         selectorWindow!.isReleasedWhenClosed = false
         selectorWindow!.delegate = self
     }
-    
+
     func clamp(min: CGFloat, max: CGFloat, value: CGFloat) -> CGFloat {
         CGFloat.minimum(CGFloat.maximum(min, value), max)
     }
-    
+
     func windowDidResignKey(_ notification: Notification) {
         if selectorWindow!.hidesOnDeactivate {
             selectorWindow!.contentView = nil
             selectorWindow!.close()
         }
     }
-    
+
     func getScreenWithMouse() -> NSScreen? {
         let mouseLocation = NSEvent.mouseLocation
         let screens = NSScreen.screens
         let screenWithMouse = (screens.first { NSMouseInRect(mouseLocation, $0.frame, false) })
-        
+
         return screenWithMouse
     }
 }

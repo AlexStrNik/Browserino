@@ -8,6 +8,11 @@
 import AppKit
 import SwiftUI
 
+enum PromptMode {
+    case open
+    case move(source: NSRunningApplication)
+}
+
 struct PromptView: View {
     @AppStorage("browsers") private var browsers: [URL] = []
     @AppStorage("hiddenBrowsers") private var hiddenBrowsers: [URL] = []
@@ -17,15 +22,35 @@ struct PromptView: View {
     @AppStorage("copy_closeAfterCopy") private var closeAfterCopy: Bool = false
     @AppStorage("copy_alternativeShortcut") private var alternativeShortcut: Bool = false
     @AppStorage("apps_atTop") private var appsAtTop: Bool = true
+    @AppStorage("switch_closeSourceTab") private var closeSourceTab: Bool = true
 
     let urls: [URL]
+    var mode: PromptMode = .open
 
     @State private var opacityAnimation = 0.0
     @State private var selected = 0
     @FocusState private var focused: Bool
 
+    var isMoveMode: Bool {
+        if case .move = mode {
+            return true
+        }
+        return false
+    }
+
+    var sourceApplication: NSRunningApplication? {
+        if case .move(let source) = mode {
+            return source
+        }
+        return nil
+    }
+
     var appsForUrls: [App] {
-        urls.flatMap { url in
+        if isMoveMode {
+            return []
+        }
+
+        return urls.flatMap { url in
             return apps.filter { app in
                 url.matchesHost(app.host)
             }
@@ -36,7 +61,19 @@ struct PromptView: View {
     }
 
     var visibleBrowsers: [URL] {
-        browsers.filter { !hiddenBrowsers.contains($0) }
+        browsers.filter { browser in
+            if hiddenBrowsers.contains(browser) {
+                return false
+            }
+
+            if let source = sourceApplication,
+               Bundle(url: browser)?.bundleIdentifier == source.bundleIdentifier
+            {
+                return false
+            }
+
+            return true
+        }
     }
 
     func openUrlsInApp(app: App) {
@@ -62,8 +99,50 @@ struct PromptView: View {
         )
     }
 
+    func openInBrowser(_ browser: URL, isIncognito: Bool) {
+        BrowserUtil.openURL(
+            urls,
+            app: browser,
+            isIncognito: isIncognito
+        ) { _, error in
+            DispatchQueue.main.async {
+                handleMoveCompletion(error: error)
+            }
+        }
+    }
+
+    func handleMoveCompletion(error: Error?) {
+        guard let source = sourceApplication else {
+            return
+        }
+
+        if let error {
+            BrowserSwitchService.shared.presentOpenFailedAlert(error)
+            return
+        }
+
+        guard closeSourceTab else {
+            return
+        }
+
+        BrowserTabScripting.closeActiveTab(in: source) { closeError in
+            if let closeError {
+                DispatchQueue.main.async {
+                    BrowserSwitchService.shared.presentCloseFailedAlert(closeError)
+                }
+            }
+        }
+    }
+
     var body: some View {
         VStack {
+            if let sourceName = sourceApplication?.localizedName {
+                Text("Moving from \(sourceName)")
+                    .font(.callout)
+                    .opacity(0.5)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+            }
+
             ScrollViewReader { scrollViewProxy in
                 ScrollView {
                     VStack(alignment: .leading, spacing: 2) {
@@ -86,10 +165,10 @@ struct PromptView: View {
                                     )
                                 }
                             }
-                            
+
                             Divider()
                         }
-                        
+
                         ForEach(Array(visibleBrowsers.enumerated()), id: \.offset) {
                             index, browser in
                             if let bundle = Bundle(url: browser) {
@@ -99,9 +178,8 @@ struct PromptView: View {
                                     bundle: bundle,
                                     shortcut: shortcuts[bundle.bundleIdentifier!]
                                 ) {
-                                    BrowserUtil.openURL(
-                                        urls,
-                                        app: browser,
+                                    openInBrowser(
+                                        browser,
                                         isIncognito: NSEvent.modifierFlags.contains(.shift)
                                     )
                                 }
@@ -156,17 +234,15 @@ struct PromptView: View {
                             if selected < appsForUrls.count {
                                 openUrlsInApp(app: appsForUrls[selected])
                             } else {
-                                BrowserUtil.openURL(
-                                    urls,
-                                    app: visibleBrowsers[selected - appsForUrls.count],
+                                openInBrowser(
+                                    visibleBrowsers[selected - appsForUrls.count],
                                     isIncognito: false
                                 )
                             }
                         } else {
                             if selected < visibleBrowsers.count {
-                                BrowserUtil.openURL(
-                                    urls,
-                                    app: visibleBrowsers[selected],
+                                openInBrowser(
+                                    visibleBrowsers[selected],
                                     isIncognito: false
                                 )
                             } else {
@@ -182,17 +258,15 @@ struct PromptView: View {
                             if selected < appsForUrls.count {
                                 openUrlsInApp(app: appsForUrls[selected])
                             } else {
-                                BrowserUtil.openURL(
-                                    urls,
-                                    app: visibleBrowsers[selected - appsForUrls.count],
+                                openInBrowser(
+                                    visibleBrowsers[selected - appsForUrls.count],
                                     isIncognito: true
                                 )
                             }
                         } else {
                             if selected < visibleBrowsers.count {
-                                BrowserUtil.openURL(
-                                    urls,
-                                    app: visibleBrowsers[selected],
+                                openInBrowser(
+                                    visibleBrowsers[selected],
                                     isIncognito: true
                                 )
                             } else {
