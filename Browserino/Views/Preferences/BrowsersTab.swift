@@ -41,7 +41,7 @@ struct BrowsersTab: View {
                             Spacer()
                                 .frame(width: 8)
 
-                            Text(bundle.infoDictionary!["CFBundleName"] as! String)
+                            Text(bundle.appDisplayName)
                                 .font(
                                     .system(size: 14)
                                 )
@@ -49,20 +49,22 @@ struct BrowsersTab: View {
                             Spacer()
                                 .frame(width: 32)
 
-                            TextField(
-                                "Private argument",
-                                text: privateArg(for: bundle.bundleIdentifier!)
-                            )
-                            .font(
-                                .system(size: 14).monospaced()
-                            )
+                            if let browserId = bundle.bundleIdentifier {
+                                TextField(
+                                    "Private argument",
+                                    text: privateArg(for: browserId)
+                                )
+                                .font(
+                                    .system(size: 14).monospaced()
+                                )
 
-                            Spacer()
-                                .frame(width: 32)
+                                Spacer()
+                                    .frame(width: 32)
 
-                            ShortcutButton(
-                                browserId: bundle.bundleIdentifier!
-                            )
+                                ShortcutButton(
+                                    browserId: browserId
+                                )
+                            }
 
                             Spacer()
                                 .frame(width: 8)

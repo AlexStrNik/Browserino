@@ -17,7 +17,7 @@ struct PromptItem: View {
     var body: some View {
         Button(action: action) {
             HStack {
-                Text(bundle.infoDictionary!["CFBundleName"] as! String)
+                Text(bundle.appDisplayName)
                     .font(
                         .system(size: 12, weight: .bold)
                     )

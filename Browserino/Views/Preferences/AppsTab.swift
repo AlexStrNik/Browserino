@@ -92,52 +92,62 @@ struct AppItem: View {
     @State private var editPresented = false
 
     var body: some View {
-        if let bundle = Bundle(url: app.app) {
-            HStack {
-                Button(action: {
-                    editPresented.toggle()
-                }) {
-                    Label(
-                        app.host.isEmpty ? "*" : app.host,
-                        systemImage: "pencil"
-                    )
-                    .font(
-                        .system(size: 14)
-                    )
-                    .foregroundStyle(.primary)
-                }
-                .buttonStyle(.plain)
+        let bundle = Bundle(url: app.app)
 
-                Spacer()
-
-
-                Text(bundle.infoDictionary!["CFBundleName"] as! String)
-                    .font(
-                        .system(size: 14)
-                    )
-
-
-                Spacer()
-                    .frame(width: 32)
-
-                ShortcutButton(
-                    browserId: bundle.bundleIdentifier!
+        HStack {
+            Button(action: {
+                editPresented.toggle()
+            }) {
+                Label(
+                    app.host.isEmpty ? "*" : app.host,
+                    systemImage: "pencil"
                 )
+                .font(
+                    .system(size: 14)
+                )
+                .foregroundStyle(.primary)
+            }
+            .buttonStyle(.plain)
 
-                Spacer()
-                    .frame(width: 8)
+            Spacer()
 
+
+            Text(bundle?.appDisplayName ?? "\(app.app.appDisplayName) (not installed)")
+                .font(
+                    .system(size: 14)
+                )
+                .foregroundStyle(bundle == nil ? .secondary : .primary)
+
+
+            Spacer()
+                .frame(width: 32)
+
+            if let browserId = bundle?.bundleIdentifier {
+                ShortcutButton(
+                    browserId: browserId
+                )
+            }
+
+            Spacer()
+                .frame(width: 8)
+
+            if let bundle {
                 Image(nsImage: NSWorkspace.shared.icon(forFile: bundle.bundlePath))
                     .resizable()
                     .frame(width: 32, height: 32)
+            } else {
+                Image(systemName: "questionmark.app.dashed")
+                    .font(.system(size: 24))
+                    .foregroundStyle(.secondary)
+                    .frame(width: 32, height: 32)
             }
-            .padding(10)
-            .sheet(isPresented: $editPresented) {
-                EditAppForm(
-                    app: $app,
-                    isPresented: $editPresented
-                )
-            }
+        }
+        .padding(10)
+        .sheet(isPresented: $editPresented) {
+            EditAppForm(
+                app: $app,
+                isPresented: $editPresented
+            )
         }
     }
 }

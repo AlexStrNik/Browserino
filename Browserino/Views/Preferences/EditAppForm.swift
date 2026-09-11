@@ -25,7 +25,7 @@ struct EditAppForm: View {
     }
     
     var body: some View {
-        let bundle = Bundle(url: app.app)!
+        let bundle = Bundle(url: app.app)
 
         Form {
             Section(
@@ -52,7 +52,7 @@ struct EditAppForm: View {
                         }
                     }
                     
-                    Text("\(bundle.infoDictionary!["CFBundleName"] as! String)")
+                    Text(bundle?.appDisplayName ?? "\(app.app.appDisplayName) (not installed)")
                         .padding(.horizontal, 5)
                         .font(.callout)
                         .foregroundStyle(.secondary)

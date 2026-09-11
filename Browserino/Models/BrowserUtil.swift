@@ -71,7 +71,8 @@ class BrowserUtil {
         
         let configuration = NSWorkspace.OpenConfiguration()
         
-        if isIncognito, let privateArg = privateArgs[bundle.bundleIdentifier!] {
+        if isIncognito, let bundleIdentifier = bundle.bundleIdentifier,
+           let privateArg = privateArgs[bundleIdentifier] {
             configuration.createsNewApplicationInstance = true
             configuration.arguments = [privateArg] + urls.map(\.absoluteString)
         }
