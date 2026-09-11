@@ -37,6 +37,7 @@
 		989B17FD2C17400A0039441B /* EditAppForm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 989B17FC2C17400A0039441B /* EditAppForm.swift */; };
 		98F919362C12187500BDC10C /* Browserino.icns in Resources */ = {isa = PBXBuildFile; fileRef = 98F919352C12187500BDC10C /* Browserino.icns */; };
 		B9CFBE192F0C6F3D00FC6D37 /* URLExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9CFBE182F0C6F3D00FC6D37 /* URLExtensions.swift */; };
+		B9CFBE1A2F0C6F3D00FC6D37 /* Bundle+AppDisplayName.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9CFBE1B2F0C6F3D00FC6D37 /* Bundle+AppDisplayName.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -73,6 +74,7 @@
 		989B17FC2C17400A0039441B /* EditAppForm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditAppForm.swift; sourceTree = "<group>"; };
 		98F919352C12187500BDC10C /* Browserino.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = Browserino.icns; sourceTree = "<group>"; };
 		B9CFBE182F0C6F3D00FC6D37 /* URLExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLExtensions.swift; sourceTree = "<group>"; };
+		B9CFBE1B2F0C6F3D00FC6D37 /* Bundle+AppDisplayName.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Bundle+AppDisplayName.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -144,6 +146,7 @@
 			isa = PBXGroup;
 			children = (
 				B9CFBE182F0C6F3D00FC6D37 /* URLExtensions.swift */,
+				B9CFBE1B2F0C6F3D00FC6D37 /* Bundle+AppDisplayName.swift */,
 				9838C97F2E9BC6CB00261421 /* View+Tooltip.swift */,
 				984671CF2E68A05800250D9C /* View+ScrollEdgeDisabled.swift */,
 				986DF3C72E45F2EC00D5A3C4 /* View+OnKeyPress.swift */,
@@ -273,6 +276,7 @@
 				9830F0A62C119A3000D69C88 /* BrowserinoApp.swift in Sources */,
 				9830F0C52C11DF2C00D69C88 /* BrowserinoWindow.swift in Sources */,
 				B9CFBE192F0C6F3D00FC6D37 /* URLExtensions.swift in Sources */,
+				B9CFBE1A2F0C6F3D00FC6D37 /* Bundle+AppDisplayName.swift in Sources */,
 				989B17FB2C1710D70039441B /* AppsTab.swift in Sources */,
 				986DF3C42E45ED0500D5A3C4 /* View+FocusEffectDisabled.swift in Sources */,
 				986DC80C2CFE447600447DC7 /* EditRuleForm.swift in Sources */,

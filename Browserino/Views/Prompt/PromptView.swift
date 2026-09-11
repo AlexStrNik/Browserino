@@ -74,7 +74,7 @@ struct PromptView: View {
                                         browser: app.app,
                                         urls: urls,
                                         bundle: bundle,
-                                        shortcut: shortcuts[bundle.bundleIdentifier!]
+                                        shortcut: bundle.bundleIdentifier.flatMap { shortcuts[$0] }
                                     ) {
                                         openUrlsInApp(app: app)
                                     }
@@ -97,7 +97,7 @@ struct PromptView: View {
                                     browser: browser,
                                     urls: urls,
                                     bundle: bundle,
-                                    shortcut: shortcuts[bundle.bundleIdentifier!]
+                                    shortcut: bundle.bundleIdentifier.flatMap { shortcuts[$0] }
                                 ) {
                                     BrowserUtil.openURL(
                                         urls,
@@ -123,7 +123,7 @@ struct PromptView: View {
                                         browser: app.app,
                                         urls: urls,
                                         bundle: bundle,
-                                        shortcut: shortcuts[bundle.bundleIdentifier!]
+                                        shortcut: bundle.bundleIdentifier.flatMap { shortcuts[$0] }
                                     ) {
                                         openUrlsInApp(app: app)
                                     }
