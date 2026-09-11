@@ -13,7 +13,7 @@ extension View {
         if #available(macOS 26.0, *) {
             self
                 .scrollEdgeEffectStyle(.soft, for: .all)
-                .scrollEdgeEffectDisabled(true, for: .all)
+                .scrollEdgeEffectHidden(true, for: .all)
         } else {
             self
         }
