@@ -12,7 +12,6 @@ struct EditAppForm: View {
     @Binding var isPresented: Bool
     
     @AppStorage("apps") private var apps: [App] = []
-    @State private var openWithPresented = false
     
     private var hostValid: Bool {
         let url = if app.host.starts(with: /https?:\/\//) {
@@ -25,8 +24,6 @@ struct EditAppForm: View {
     }
     
     var body: some View {
-        let bundle = Bundle(url: app.app)!
-
         Form {
             Section(
                 header: Text("General")
@@ -37,25 +34,14 @@ struct EditAppForm: View {
                         .system(size: 14)
                     )
                 
-                LabeledContent("Application:") {
-                    Button(action: {
-                        openWithPresented.toggle()
-                    }) {
-                        Text("Open with")
-                    }
-                    .fileImporter(
-                        isPresented: $openWithPresented,
-                        allowedContentTypes: [.application]
-                    ) {
-                        if case .success(let url) = $0 {
-                            app.app = url
-                        }
-                    }
-                    
-                    Text("\(bundle.infoDictionary!["CFBundleName"] as! String)")
-                        .padding(.horizontal, 5)
-                        .font(.callout)
-                        .foregroundStyle(.secondary)
+                LabeledContent("Open in:") {
+                    BrowserTargetPicker(
+                        app: Binding(
+                            get: { app.app },
+                            set: { if let selected = $0 { app.app = selected } }
+                        ),
+                        profile: $app.profile
+                    )
                 }
             }
             

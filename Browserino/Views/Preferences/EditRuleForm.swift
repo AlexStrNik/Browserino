@@ -62,11 +62,10 @@ struct RuleForm: View {
     var onSave: (Rule) -> Void
     var onDelete: () -> Void
 
-    @State private var openWithPresented = false
-    
     @State private var regex: String = ""
     @State private var testUrls: String = "https://github.com/AlexStrNik/Browserino\nhttps://x.com/alexstrnik"
     @State private var url: URL?
+    @State private var profile: String?
     
     private var compiledRegex: Regex<AnyRegexOutput>? {
         return try? Regex(regex).ignoresCase()
@@ -115,27 +114,8 @@ struct RuleForm: View {
                 .frame(height: 32)
             
             
-            LabeledContent("Application:") {
-                Button(action: {
-                    openWithPresented.toggle()
-                }) {
-                    Text("Open with")
-                }
-                .fileImporter(
-                    isPresented: $openWithPresented,
-                    allowedContentTypes: [.application]
-                ) {
-                    if case .success(let url) = $0 {
-                        self.url = url
-                    }
-                }
-                
-                if let bundle = url.map({ Bundle(url: $0)! }) {
-                    Text("\(bundle.infoDictionary!["CFBundleName"] as! String)")
-                        .padding(.horizontal, 5)
-                        .font(.callout)
-                        .foregroundStyle(.secondary)
-                }
+            LabeledContent("Open in:") {
+                BrowserTargetPicker(app: $url, profile: $profile)
             }
             
             Spacer()
@@ -162,7 +142,8 @@ struct RuleForm: View {
                     onSave(
                         Rule(
                             regex: regex,
-                            app: url
+                            app: url,
+                            profile: profile
                         )
                     )
                 }) {
@@ -177,6 +158,7 @@ struct RuleForm: View {
         .onAppear {
             regex = rule?.regex ?? ""
             url = rule?.app
+            profile = rule?.profile
         }
     }
 }

@@ -11,6 +11,11 @@ struct App: Codable, Hashable {
     var host: String
     var schemeOverride: String
     var app: URL
+    var profile: String?
+
+    var target: BrowserTarget {
+        BrowserTarget(app: app, profile: profile)
+    }
 }
 
 struct NewApp: View {
@@ -92,52 +97,65 @@ struct AppItem: View {
     @State private var editPresented = false
 
     var body: some View {
-        if let bundle = Bundle(url: app.app) {
-            HStack {
-                Button(action: {
-                    editPresented.toggle()
-                }) {
-                    Label(
-                        app.host.isEmpty ? "*" : app.host,
-                        systemImage: "pencil"
-                    )
-                    .font(
-                        .system(size: 14)
-                    )
-                    .foregroundStyle(.primary)
-                }
-                .buttonStyle(.plain)
+        let bundle = Bundle(url: app.app)
 
-                Spacer()
+        HStack {
+            Button(action: {
+                editPresented.toggle()
+            }) {
+                Label(
+                    app.host.isEmpty ? "*" : app.host,
+                    systemImage: "pencil"
+                )
+                .font(
+                    .system(size: 14)
+                )
+                .foregroundStyle(.primary)
+            }
+            .buttonStyle(.plain)
 
-
-                Text(bundle.infoDictionary!["CFBundleName"] as! String)
-                    .font(
-                        .system(size: 14)
-                    )
+            Spacer()
 
 
-                Spacer()
-                    .frame(width: 32)
-
-                ShortcutButton(
-                    browserId: bundle.bundleIdentifier!
+            Text(bundle == nil
+                 ? "\(app.app.appDisplayName) (not installed)"
+                 : app.target.displayName)
+                .font(
+                    .system(size: 14)
+                )
+                .foregroundStyle(
+                    bundle == nil || app.target.hasMissingProfile ? .secondary : .primary
                 )
 
-                Spacer()
-                    .frame(width: 8)
 
-                Image(nsImage: NSWorkspace.shared.icon(forFile: bundle.bundlePath))
-                    .resizable()
+            Spacer()
+                .frame(width: 32)
+
+            if let browserId = bundle?.bundleIdentifier {
+                ShortcutButton(
+                    shortcutKey: app.target.shortcutKey(bundleIdentifier: browserId)
+                )
+            }
+
+            Spacer()
+                .frame(width: 8)
+
+            if bundle != nil {
+                BrowserTargetIcon(target: app.target)
+                    .frame(width: 32, height: 32)
+            } else {
+                Image(systemName: "questionmark.app.dashed")
+                    .font(.system(size: 24))
+                    .foregroundStyle(.secondary)
                     .frame(width: 32, height: 32)
             }
-            .padding(10)
-            .sheet(isPresented: $editPresented) {
-                EditAppForm(
-                    app: $app,
-                    isPresented: $editPresented
-                )
-            }
+        }
+        .padding(10)
+        .sheet(isPresented: $editPresented) {
+            EditAppForm(
+                app: $app,
+                isPresented: $editPresented
+            )
         }
     }
 }
@@ -156,6 +174,7 @@ struct AppsTab: View {
                     )
                 }
             }
+            .scrollContentBackground(.hidden)
             
             Text("Type domain and choose app in which links will be opened")
                 .font(.subheadline)
