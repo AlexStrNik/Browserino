@@ -10,25 +10,26 @@ import UniformTypeIdentifiers
 import ServiceManagement
 
 struct SettingsDocument: FileDocument {
-    static var readableContentTypes: [UTType] { [.json] }
-    
-    var settings: [String: Any]
-    
+    static let readableContentTypes: [UTType] = [.json]
+
+    // Serialized on the way in: [String: Any] cannot cross a Sendable boundary.
+    private var data: Data
+
     init(settings: [String: Any] = [:]) {
-        self.settings = settings
+        data = (try? JSONSerialization.data(withJSONObject: settings, options: .prettyPrinted)) ?? Data()
     }
-    
+
     init(configuration: ReadConfiguration) throws {
-        guard let data = configuration.file.regularFileContents,
-              let jsonObject = try JSONSerialization.jsonObject(with: data) as? [String: Any] else {
+        guard let contents = configuration.file.regularFileContents,
+              let object = try? JSONSerialization.jsonObject(with: contents),
+              object is [String: Any] else {
             throw CocoaError(.fileReadCorruptFile)
         }
-        self.settings = jsonObject
+        data = contents
     }
-    
+
     func fileWrapper(configuration: WriteConfiguration) throws -> FileWrapper {
-        let data = try JSONSerialization.data(withJSONObject: settings, options: .prettyPrinted)
-        return .init(regularFileWithContents: data)
+        .init(regularFileWithContents: data)
     }
 }
 
@@ -116,7 +117,9 @@ struct GeneralTab: View {
                             at: Bundle.main.bundleURL,
                             toOpenURLsWithScheme: "http"
                         ) { _ in
-                            isDefault = defaultBrowser() == Bundle.main.bundleIdentifier
+                            Task { @MainActor in
+                                isDefault = defaultBrowser() == Bundle.main.bundleIdentifier
+                            }
                         }
                     }) {
                         Text("Make default")

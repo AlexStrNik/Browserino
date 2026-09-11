@@ -8,6 +8,7 @@ import AppKit
 import Foundation
 import SwiftUI
 
+@MainActor
 class BrowserUtil {
     @AppStorage("directories") private static var directories: [Directory] = []
     @AppStorage("privateArgs") private static var privateArgs: [String: String] = [:]
