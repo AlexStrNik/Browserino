@@ -26,8 +26,6 @@
 		986DC8072CFE42E300447DC7 /* RulesTab.swift in Sources */ = {isa = PBXBuildFile; fileRef = 986DC8062CFE42E000447DC7 /* RulesTab.swift */; };
 		986DC8092CFE42EB00447DC7 /* Rule.swift in Sources */ = {isa = PBXBuildFile; fileRef = 986DC8082CFE42EA00447DC7 /* Rule.swift */; };
 		986DC80C2CFE447600447DC7 /* EditRuleForm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 986DC80B2CFE447200447DC7 /* EditRuleForm.swift */; };
-		986DF3C42E45ED0500D5A3C4 /* View+FocusEffectDisabled.swift in Sources */ = {isa = PBXBuildFile; fileRef = 986DF3C32E45ED0100D5A3C4 /* View+FocusEffectDisabled.swift */; };
-		986DF3C82E45F2F000D5A3C4 /* View+OnKeyPress.swift in Sources */ = {isa = PBXBuildFile; fileRef = 986DF3C72E45F2EC00D5A3C4 /* View+OnKeyPress.swift */; };
 		989B17EF2C16F7640039441B /* PromptItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 989B17EE2C16F7640039441B /* PromptItem.swift */; };
 		989B17F32C16FC550039441B /* BrowsersTab.swift in Sources */ = {isa = PBXBuildFile; fileRef = 989B17F22C16FC550039441B /* BrowsersTab.swift */; };
 		989B17F52C16FC690039441B /* ShortcutButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 989B17F42C16FC690039441B /* ShortcutButton.swift */; };
@@ -63,8 +61,6 @@
 		986DC8062CFE42E000447DC7 /* RulesTab.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RulesTab.swift; sourceTree = "<group>"; };
 		986DC8082CFE42EA00447DC7 /* Rule.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Rule.swift; sourceTree = "<group>"; };
 		986DC80B2CFE447200447DC7 /* EditRuleForm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditRuleForm.swift; sourceTree = "<group>"; };
-		986DF3C32E45ED0100D5A3C4 /* View+FocusEffectDisabled.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+FocusEffectDisabled.swift"; sourceTree = "<group>"; };
-		986DF3C72E45F2EC00D5A3C4 /* View+OnKeyPress.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+OnKeyPress.swift"; sourceTree = "<group>"; };
 		989B17EE2C16F7640039441B /* PromptItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PromptItem.swift; sourceTree = "<group>"; };
 		989B17F22C16FC550039441B /* BrowsersTab.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrowsersTab.swift; sourceTree = "<group>"; };
 		989B17F42C16FC690039441B /* ShortcutButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShortcutButton.swift; sourceTree = "<group>"; };
@@ -149,8 +145,6 @@
 				B9CFBE1B2F0C6F3D00FC6D37 /* Bundle+AppDisplayName.swift */,
 				9838C97F2E9BC6CB00261421 /* View+Tooltip.swift */,
 				984671CF2E68A05800250D9C /* View+ScrollEdgeDisabled.swift */,
-				986DF3C72E45F2EC00D5A3C4 /* View+OnKeyPress.swift */,
-				986DF3C32E45ED0100D5A3C4 /* View+FocusEffectDisabled.swift */,
 				9830F0BD2C11DEBB00D69C88 /* View+If.swift */,
 				9830F0C62C11E87300D69C88 /* Array+RawRepresentable.swift */,
 			);
@@ -278,7 +272,6 @@
 				B9CFBE192F0C6F3D00FC6D37 /* URLExtensions.swift in Sources */,
 				B9CFBE1A2F0C6F3D00FC6D37 /* Bundle+AppDisplayName.swift in Sources */,
 				989B17FB2C1710D70039441B /* AppsTab.swift in Sources */,
-				986DF3C42E45ED0500D5A3C4 /* View+FocusEffectDisabled.swift in Sources */,
 				986DC80C2CFE447600447DC7 /* EditRuleForm.swift in Sources */,
 				989B17F32C16FC550039441B /* BrowsersTab.swift in Sources */,
 				986DC8092CFE42EB00447DC7 /* Rule.swift in Sources */,
@@ -291,7 +284,6 @@
 				989B17F92C170C160039441B /* AboutTab.swift in Sources */,
 				9830F0BE2C11DEBB00D69C88 /* View+If.swift in Sources */,
 				989B17F52C16FC690039441B /* ShortcutButton.swift in Sources */,
-				986DF3C82E45F2F000D5A3C4 /* View+OnKeyPress.swift in Sources */,
 				9830F0C32C11DEED00D69C88 /* ButtonStyles.swift in Sources */,
 				9830F0B62C119CD800D69C88 /* main.swift in Sources */,
 				664FDF222CE4AA6B009766AA /* BrowserUtil.swift in Sources */,
@@ -358,7 +350,7 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
-				MACOSX_DEPLOYMENT_TARGET = 14.4;
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -415,7 +407,7 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
-				MACOSX_DEPLOYMENT_TARGET = 14.4;
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = macosx;
@@ -451,12 +443,12 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MACOSX_DEPLOYMENT_TARGET = 13.0;
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
 				MARKETING_VERSION = 1.1.16;
 				PRODUCT_BUNDLE_IDENTIFIER = xyz.alexstrnik.Browserino;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
-				SWIFT_VERSION = 5.0;
+				SWIFT_VERSION = 6.0;
 			};
 			name = Debug;
 		};
@@ -488,12 +480,12 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MACOSX_DEPLOYMENT_TARGET = 13.0;
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
 				MARKETING_VERSION = 1.1.16;
 				PRODUCT_BUNDLE_IDENTIFIER = xyz.alexstrnik.Browserino;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
-				SWIFT_VERSION = 5.0;
+				SWIFT_VERSION = 6.0;
 			};
 			name = Release;
 		};

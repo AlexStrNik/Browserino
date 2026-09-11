@@ -22,18 +22,19 @@ struct ShortcutButton: View {
                 .contentShape(.rect)
                 .focusable()
                 .focused($focus)
-                .onChange(of: focus) { newFocus in
+                .onChange(of: focus) { _, newFocus in
                     isRecording = newFocus
                 }
-                .onKeyPressCompat { key in
+                .onKeyPress { press in
+                    let key = press.key.character.uppercased()
                     isRecording = false
-                    
+
                     if let shortcut = shortcuts.first(where: { $0.value == key }) {
                         shortcuts[shortcut.key] = nil
                     }
                     shortcuts[browserId] = key
-                    
-                    return true
+
+                    return .handled
                 }
         } else {
             let recordedKey = shortcuts[browserId]

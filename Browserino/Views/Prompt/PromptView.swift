@@ -139,7 +139,7 @@ struct PromptView: View {
                     }
                 }
                 .focusable()
-                .focusEffectDisabledCompat()
+                .focusEffectDisabled()
                 .focused($focused)
                 .onMoveCommand { command in
                     if command == .up {

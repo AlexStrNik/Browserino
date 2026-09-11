@@ -87,6 +87,7 @@ struct BrowsersTab: View {
                 }
                 .onMove(perform: move)
             }
+            .scrollContentBackground(.hidden)
             .onAppear {
                 if browsers.isEmpty {
                     browsers = BrowserUtil.loadBrowsers(

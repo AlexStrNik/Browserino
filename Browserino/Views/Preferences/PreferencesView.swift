@@ -5,17 +5,7 @@
 //  Created by Aleksandr Strizhnev on 06.06.2024.
 //
 
-import AppKit
 import SwiftUI
-
-extension NSTableView {
-    open override func viewDidMoveToWindow() {
-        super.viewDidMoveToWindow()
-        
-        backgroundColor = NSColor.clear
-        enclosingScrollView?.drawsBackground = false
-    }
-}
 
 struct PreferencesView: View {
     var body: some View {

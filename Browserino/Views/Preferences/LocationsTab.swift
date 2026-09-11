@@ -82,6 +82,7 @@ struct BrowserSearchLocationsTab: View {
                 }
                 BrowserSearchLocations(directories: $directories)
             }
+            .scrollContentBackground(.hidden)
 
             Text("Manage browser search locations (don't forget to rescan)")
                 .font(.subheadline)

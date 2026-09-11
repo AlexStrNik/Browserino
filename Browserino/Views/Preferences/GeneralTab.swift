@@ -200,7 +200,7 @@ struct GeneralTab: View {
                             .font(.callout)
                             .opacity(0.5)
                     }
-                    .onChange(of: launchAtLogin) { newValue in
+                    .onChange(of: launchAtLogin) { _, newValue in
                         do {
                             if newValue {
                                 try SMAppService.mainApp.register()

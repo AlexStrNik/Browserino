@@ -166,6 +166,7 @@ struct AppsTab: View {
                     )
                 }
             }
+            .scrollContentBackground(.hidden)
             
             Text("Type domain and choose app in which links will be opened")
                 .font(.subheadline)

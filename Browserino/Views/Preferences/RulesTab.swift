@@ -106,6 +106,7 @@ struct RulesTab: View {
                     )
                 }
             }
+            .scrollContentBackground(.hidden)
             
             Text("Type regex and choose app in which links will be opened without prompt")
                 .font(.subheadline)
