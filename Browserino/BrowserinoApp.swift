@@ -8,6 +8,7 @@
 import SwiftUI
 import Foundation
 
+@MainActor
 class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate {
     private var selectorWindow: BrowserinoWindow?
     private var preferencesWindow: NSWindow?
@@ -59,10 +60,14 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate {
         }
     }
     
-    override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
+    override nonisolated func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
         if keyPath == "showInMenuBar" {
-            setupStatusBar()
-            NSApp.setActivationPolicy(.accessory)
+            // Another process writing our defaults delivers this off the main
+            // thread, so hop rather than assuming isolation.
+            Task { @MainActor in
+                setupStatusBar()
+                NSApp.setActivationPolicy(.accessory)
+            }
         }
     }
     

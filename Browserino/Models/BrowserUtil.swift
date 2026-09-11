@@ -8,6 +8,7 @@ import AppKit
 import Foundation
 import SwiftUI
 
+@MainActor
 class BrowserUtil {
     @AppStorage("directories") private static var directories: [Directory] = []
     @AppStorage("privateArgs") private static var privateArgs: [String: String] = [:]
@@ -71,7 +72,8 @@ class BrowserUtil {
         
         let configuration = NSWorkspace.OpenConfiguration()
         
-        if isIncognito, let privateArg = privateArgs[bundle.bundleIdentifier!] {
+        if isIncognito, let bundleIdentifier = bundle.bundleIdentifier,
+           let privateArg = privateArgs[bundleIdentifier] {
             configuration.createsNewApplicationInstance = true
             configuration.arguments = [privateArg] + urls.map(\.absoluteString)
         }
