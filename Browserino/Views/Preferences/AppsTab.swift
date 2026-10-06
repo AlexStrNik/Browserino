@@ -11,12 +11,18 @@ struct App: Codable, Hashable {
     var host: String
     var schemeOverride: String
     var app: URL
+    var profile: String?
+
+    var target: BrowserTarget {
+        BrowserTarget(app: app, profile: profile)
+    }
 }
 
 struct NewApp: View {
     @AppStorage("apps") private var apps: [App] = []
     @State private var host: String = ""
-    @State private var openWithPresented = false
+    @State private var selectedApp: URL?
+    @State private var selectedProfile: String?
     
     private var hostValid: Bool {
         if host.isEmpty {
@@ -40,7 +46,7 @@ struct NewApp: View {
                 )
                 .opacity(0)
             
-            TextField("example.com or empty for all", text: $host)
+            TextField(L10n.text("apps.host.placeholder"), text: $host)
                 .font(
                     .system(size: 14)
                 )
@@ -48,38 +54,15 @@ struct NewApp: View {
             Spacer()
                 .frame(width: 16)
             
-            Button(action: {
-                openWithPresented.toggle()
-            }) {
-                Text("Open with")
-            }
-            .fileImporter(
-                isPresented: $openWithPresented,
-                allowedContentTypes: [.application]
-            ) {
-                if case .success(let url) = $0 {
-                    let appHost: String
-
-                    if host.isEmpty {
-                        appHost = ""
-                    } else {
-                        let hostUrl = if host.starts(with: /https?:\/\//) {
-                            host
-                        } else {
-                            "http://" + host
-                        }
-                        appHost = URL(string: hostUrl)!.host()!
-                    }
-
-                    apps.append(
-                        App(
-                            host: appHost,
-                            schemeOverride: "",
-                            app: url
-                        )
-                    )
-                    host = ""
-                }
+            BrowserTargetPicker(app: $selectedApp, profile: $selectedProfile)
+            .onChange(of: selectedApp) { _, url in
+                guard let url else { return }
+                let input = host.hasPrefix("http://") || host.hasPrefix("https://") ? host : "http://" + host
+                guard host.isEmpty || URL(string: input)?.host != nil else { return }
+                apps.append(App(host: host.isEmpty ? "" : URL(string: input)!.host!, schemeOverride: "", app: url, profile: selectedProfile))
+                host = ""
+                selectedApp = nil
+                selectedProfile = nil
             }
             .disabled(!hostValid)
         }
@@ -92,52 +75,65 @@ struct AppItem: View {
     @State private var editPresented = false
 
     var body: some View {
-        if let bundle = Bundle(url: app.app) {
-            HStack {
-                Button(action: {
-                    editPresented.toggle()
-                }) {
-                    Label(
-                        app.host.isEmpty ? "*" : app.host,
-                        systemImage: "pencil"
-                    )
-                    .font(
-                        .system(size: 14)
-                    )
-                    .foregroundStyle(.primary)
-                }
-                .buttonStyle(.plain)
+        let bundle = Bundle(url: app.app)
 
-                Spacer()
+        HStack {
+            Button(action: {
+                editPresented.toggle()
+            }) {
+                Label(
+                    app.host.isEmpty ? "*" : app.host,
+                    systemImage: "pencil"
+                )
+                .font(
+                    .system(size: 14)
+                )
+                .foregroundStyle(.primary)
+            }
+            .buttonStyle(.plain)
 
-
-                Text(bundle.infoDictionary!["CFBundleName"] as! String)
-                    .font(
-                        .system(size: 14)
-                    )
+            Spacer()
 
 
-                Spacer()
-                    .frame(width: 32)
-
-                ShortcutButton(
-                    browserId: bundle.bundleIdentifier!
+            Text(bundle == nil
+                 ? L10n.format("browsers.status.not_installed", app.app.appDisplayName)
+                 : app.target.displayName)
+                .font(
+                    .system(size: 14)
+                )
+                .foregroundStyle(
+                    bundle == nil || app.target.hasMissingProfile ? .secondary : .primary
                 )
 
-                Spacer()
-                    .frame(width: 8)
 
-                Image(nsImage: NSWorkspace.shared.icon(forFile: bundle.bundlePath))
-                    .resizable()
+            Spacer()
+                .frame(width: 32)
+
+            if let browserId = bundle?.bundleIdentifier {
+                ShortcutButton(
+                    shortcutKey: app.target.shortcutKey(bundleIdentifier: browserId)
+                )
+            }
+
+            Spacer()
+                .frame(width: 8)
+
+            if bundle != nil {
+                BrowserTargetIcon(target: app.target)
+                    .frame(width: 32, height: 32)
+            } else {
+                Image(systemName: "questionmark.app.dashed")
+                    .font(.system(size: 24))
+                    .foregroundStyle(.secondary)
                     .frame(width: 32, height: 32)
             }
-            .padding(10)
-            .sheet(isPresented: $editPresented) {
-                EditAppForm(
-                    app: $app,
-                    isPresented: $editPresented
-                )
-            }
+        }
+        .padding(10)
+        .sheet(isPresented: $editPresented) {
+            EditAppForm(
+                app: $app,
+                isPresented: $editPresented
+            )
         }
     }
 }
@@ -156,8 +152,9 @@ struct AppsTab: View {
                     )
                 }
             }
+            .scrollContentBackground(.hidden)
             
-            Text("Type domain and choose app in which links will be opened")
+            Text(verbatim: L10n.text("apps.list.instructions"))
                 .font(.subheadline)
                 .foregroundStyle(.primary.opacity(0.5))
                 .frame(maxWidth: .infinity)

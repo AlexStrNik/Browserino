@@ -12,7 +12,6 @@ struct EditAppForm: View {
     @Binding var isPresented: Bool
     
     @AppStorage("apps") private var apps: [App] = []
-    @State private var openWithPresented = false
     
     private var hostValid: Bool {
         let url = if app.host.starts(with: /https?:\/\//) {
@@ -25,37 +24,24 @@ struct EditAppForm: View {
     }
     
     var body: some View {
-        let bundle = Bundle(url: app.app)!
-
         Form {
             Section(
-                header: Text("General")
+                header: Text(verbatim: L10n.text("settings.tabs.general"))
                     .font(.headline)
             ) {
-                TextField("Host:", text: $app.host)
+                TextField(L10n.text("apps.editor.host"), text: $app.host)
                     .font(
                         .system(size: 14)
                     )
                 
-                LabeledContent("Application:") {
-                    Button(action: {
-                        openWithPresented.toggle()
-                    }) {
-                        Text("Open with")
-                    }
-                    .fileImporter(
-                        isPresented: $openWithPresented,
-                        allowedContentTypes: [.application]
-                    ) {
-                        if case .success(let url) = $0 {
-                            app.app = url
-                        }
-                    }
-                    
-                    Text("\(bundle.infoDictionary!["CFBundleName"] as! String)")
-                        .padding(.horizontal, 5)
-                        .font(.callout)
-                        .foregroundStyle(.secondary)
+                LabeledContent(L10n.text("browsers.target.open_in")) {
+                    BrowserTargetPicker(
+                        app: Binding(
+                            get: { app.app },
+                            set: { if let selected = $0 { app.app = selected } }
+                        ),
+                        profile: $app.profile
+                    )
                 }
             }
             
@@ -63,10 +49,10 @@ struct EditAppForm: View {
                 .frame(height: 32)
             
             Section(
-                header: Text("Advanced")
+                header: Text(verbatim: L10n.text("settings.section.advanced"))
                     .font(.headline)
             ) {
-                TextField("Replace scheme:", text: $app.schemeOverride)
+                TextField(L10n.text("apps.editor.replace_scheme"), text: $app.schemeOverride)
                     .font(
                         .system(size: 14)
                     )
@@ -79,7 +65,7 @@ struct EditAppForm: View {
                 Button(role: .cancel, action: {
                     isPresented.toggle()
                 }) {
-                    Text("Cancel")
+                    Text(verbatim: L10n.text("common.cancel"))
                 }
                 
                 Button(role: .destructive, action: {
@@ -88,7 +74,7 @@ struct EditAppForm: View {
                     }
                     isPresented.toggle()
                 }) {
-                    Text("Delete")
+                    Text(verbatim: L10n.text("common.delete"))
                 }
                 
                 Spacer()
@@ -103,7 +89,7 @@ struct EditAppForm: View {
                     
                     isPresented.toggle()
                 }) {
-                    Text("Save")
+                    Text(verbatim: L10n.text("common.save"))
                 }
                 .disabled(!hostValid)
             }

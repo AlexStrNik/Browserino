@@ -7,6 +7,16 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		C0DE10000000000000000004 /* ThirdPartyNotices.txt in Resources */ = {isa = PBXBuildFile; fileRef = C0DE10000000000000000003 /* ThirdPartyNotices.txt */; };
+		C0DE10000000000000000002 /* InfoPlist.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = C0DE10000000000000000001 /* InfoPlist.xcstrings */; };
+		B9CFBE202F0C802000FC6D37 /* KeyboardShortcuts in Frameworks */ = {isa = PBXBuildFile; productRef = B9CFBE1F2F0C801F00FC6D37; };
+		A927A98409113A4B5CAAB710 /* BrowserTabScripting.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89719EB991AE9684E7147A2C; };
+		F4652DEE30A7A7CBE811E2AC /* BrowserSwitchService.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0ADC1D7309FE1222CAAACD9; };
+		FD9F0C28839137C8A2C5239C /* SettingsPolicy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E900D10BCAE70480883BD91; };
+		081C973CEE6F66D3AFCC7281 /* IntegrationPolicy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52511D70CE32BBCC229D4A99; };
+		0548DCF0A79DAD1DD24FFD26 /* Localization.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50DD6A34B5CE37F83D76DB0A; };
+		D98E8BAAAF94791EB934B49E /* BrowserTargetPresentation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 549725F95E2376F8BB7AAF41; };
+		A10CA1000000000000000001 /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = A10CA1000000000000000002 /* Localizable.xcstrings */; };
 		664FDF222CE4AA6B009766AA /* BrowserUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = 664FDF212CE4AA6B009766AA /* BrowserUtil.swift */; };
 		669247902CEB48A5006A8C8B /* LocationsTab.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6692478F2CEB48A5006A8C8B /* LocationsTab.swift */; };
 		9830F0A62C119A3000D69C88 /* BrowserinoApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9830F0A52C119A3000D69C88 /* BrowserinoApp.swift */; };
@@ -26,8 +36,6 @@
 		986DC8072CFE42E300447DC7 /* RulesTab.swift in Sources */ = {isa = PBXBuildFile; fileRef = 986DC8062CFE42E000447DC7 /* RulesTab.swift */; };
 		986DC8092CFE42EB00447DC7 /* Rule.swift in Sources */ = {isa = PBXBuildFile; fileRef = 986DC8082CFE42EA00447DC7 /* Rule.swift */; };
 		986DC80C2CFE447600447DC7 /* EditRuleForm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 986DC80B2CFE447200447DC7 /* EditRuleForm.swift */; };
-		986DF3C42E45ED0500D5A3C4 /* View+FocusEffectDisabled.swift in Sources */ = {isa = PBXBuildFile; fileRef = 986DF3C32E45ED0100D5A3C4 /* View+FocusEffectDisabled.swift */; };
-		986DF3C82E45F2F000D5A3C4 /* View+OnKeyPress.swift in Sources */ = {isa = PBXBuildFile; fileRef = 986DF3C72E45F2EC00D5A3C4 /* View+OnKeyPress.swift */; };
 		989B17EF2C16F7640039441B /* PromptItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 989B17EE2C16F7640039441B /* PromptItem.swift */; };
 		989B17F32C16FC550039441B /* BrowsersTab.swift in Sources */ = {isa = PBXBuildFile; fileRef = 989B17F22C16FC550039441B /* BrowsersTab.swift */; };
 		989B17F52C16FC690039441B /* ShortcutButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 989B17F42C16FC690039441B /* ShortcutButton.swift */; };
@@ -37,9 +45,23 @@
 		989B17FD2C17400A0039441B /* EditAppForm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 989B17FC2C17400A0039441B /* EditAppForm.swift */; };
 		98F919362C12187500BDC10C /* Browserino.icns in Resources */ = {isa = PBXBuildFile; fileRef = 98F919352C12187500BDC10C /* Browserino.icns */; };
 		B9CFBE192F0C6F3D00FC6D37 /* URLExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9CFBE182F0C6F3D00FC6D37 /* URLExtensions.swift */; };
+		B9CFC2002F0C6F3D00FC6D37 /* BrowserTargetPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9CFC3002F0C6F3D00FC6D37 /* BrowserTargetPicker.swift */; };
+		B9CFC0022F0C6F3D00FC6D37 /* BrowserTargetIcon.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9CFC1022F0C6F3D00FC6D37 /* BrowserTargetIcon.swift */; };
+		B9CFC0012F0C6F3D00FC6D37 /* ChromiumProfile.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9CFC1012F0C6F3D00FC6D37 /* ChromiumProfile.swift */; };
+		B9CFC0002F0C6F3D00FC6D37 /* BrowserTarget.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9CFC1002F0C6F3D00FC6D37 /* BrowserTarget.swift */; };
+		B9CFBE1A2F0C6F3D00FC6D37 /* Bundle+AppDisplayName.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9CFBE1B2F0C6F3D00FC6D37 /* Bundle+AppDisplayName.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		C0DE10000000000000000003 /* ThirdPartyNotices.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = ThirdPartyNotices.txt; sourceTree = "<group>"; };
+		C0DE10000000000000000001 /* InfoPlist.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = InfoPlist.xcstrings; sourceTree = "<group>"; };
+		89719EB991AE9684E7147A2C /* BrowserTabScripting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Browserino/Models/BrowserTabScripting.swift; sourceTree = SOURCE_ROOT; };
+		C0ADC1D7309FE1222CAAACD9 /* BrowserSwitchService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Browserino/Models/BrowserSwitchService.swift; sourceTree = SOURCE_ROOT; };
+		9E900D10BCAE70480883BD91 /* SettingsPolicy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Browserino/Models/SettingsPolicy.swift; sourceTree = SOURCE_ROOT; };
+		52511D70CE32BBCC229D4A99 /* IntegrationPolicy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Browserino/Models/IntegrationPolicy.swift; sourceTree = SOURCE_ROOT; };
+		50DD6A34B5CE37F83D76DB0A /* Localization.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Browserino/Models/Localization.swift; sourceTree = SOURCE_ROOT; };
+		549725F95E2376F8BB7AAF41 /* BrowserTargetPresentation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Browserino/Models/BrowserTargetPresentation.swift; sourceTree = SOURCE_ROOT; };
+		A10CA1000000000000000002 /* Localizable.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = Localizable.xcstrings; sourceTree = "<group>"; };
 		664FDF212CE4AA6B009766AA /* BrowserUtil.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrowserUtil.swift; sourceTree = "<group>"; };
 		6692478F2CEB48A5006A8C8B /* LocationsTab.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationsTab.swift; sourceTree = "<group>"; };
 		9830F0A22C119A3000D69C88 /* Browserino.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Browserino.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -62,8 +84,6 @@
 		986DC8062CFE42E000447DC7 /* RulesTab.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RulesTab.swift; sourceTree = "<group>"; };
 		986DC8082CFE42EA00447DC7 /* Rule.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Rule.swift; sourceTree = "<group>"; };
 		986DC80B2CFE447200447DC7 /* EditRuleForm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditRuleForm.swift; sourceTree = "<group>"; };
-		986DF3C32E45ED0100D5A3C4 /* View+FocusEffectDisabled.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+FocusEffectDisabled.swift"; sourceTree = "<group>"; };
-		986DF3C72E45F2EC00D5A3C4 /* View+OnKeyPress.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+OnKeyPress.swift"; sourceTree = "<group>"; };
 		989B17EE2C16F7640039441B /* PromptItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PromptItem.swift; sourceTree = "<group>"; };
 		989B17F22C16FC550039441B /* BrowsersTab.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrowsersTab.swift; sourceTree = "<group>"; };
 		989B17F42C16FC690039441B /* ShortcutButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShortcutButton.swift; sourceTree = "<group>"; };
@@ -73,6 +93,11 @@
 		989B17FC2C17400A0039441B /* EditAppForm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditAppForm.swift; sourceTree = "<group>"; };
 		98F919352C12187500BDC10C /* Browserino.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = Browserino.icns; sourceTree = "<group>"; };
 		B9CFBE182F0C6F3D00FC6D37 /* URLExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLExtensions.swift; sourceTree = "<group>"; };
+		B9CFC3002F0C6F3D00FC6D37 /* BrowserTargetPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrowserTargetPicker.swift; sourceTree = "<group>"; };
+		B9CFC1022F0C6F3D00FC6D37 /* BrowserTargetIcon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrowserTargetIcon.swift; sourceTree = "<group>"; };
+		B9CFC1012F0C6F3D00FC6D37 /* ChromiumProfile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChromiumProfile.swift; sourceTree = "<group>"; };
+		B9CFC1002F0C6F3D00FC6D37 /* BrowserTarget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrowserTarget.swift; sourceTree = "<group>"; };
+		B9CFBE1B2F0C6F3D00FC6D37 /* Bundle+AppDisplayName.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Bundle+AppDisplayName.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -80,6 +105,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B9CFBE202F0C802000FC6D37,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -105,6 +131,15 @@
 		9830F0A42C119A3000D69C88 /* Browserino */ = {
 			isa = PBXGroup;
 			children = (
+				89719EB991AE9684E7147A2C /* BrowserTabScripting.swift */,
+				C0ADC1D7309FE1222CAAACD9 /* BrowserSwitchService.swift */,
+				9E900D10BCAE70480883BD91 /* SettingsPolicy.swift */,
+				52511D70CE32BBCC229D4A99 /* IntegrationPolicy.swift */,
+				50DD6A34B5CE37F83D76DB0A /* Localization.swift */,
+				549725F95E2376F8BB7AAF41 /* BrowserTargetPresentation.swift */,
+				A10CA1000000000000000002 /* Localizable.xcstrings */,
+				C0DE10000000000000000003 /* ThirdPartyNotices.txt */,
+				C0DE10000000000000000001 /* InfoPlist.xcstrings */,
 				9830F0AB2C119A3100D69C88 /* Preview Content */,
 				9830F0BF2C11DEC900D69C88 /* Modifiers */,
 				986AC6262CECDD2500884C40 /* Models */,
@@ -133,6 +168,7 @@
 		9830F0B72C11B08B00D69C88 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				B9CFC1022F0C6F3D00FC6D37 /* BrowserTargetIcon.swift */,
 				989B17F12C16FC420039441B /* Preferences */,
 				989B17F02C16FBDF0039441B /* Prompt */,
 				9830F0B82C11B09700D69C88 /* BlurredView.swift */,
@@ -144,10 +180,9 @@
 			isa = PBXGroup;
 			children = (
 				B9CFBE182F0C6F3D00FC6D37 /* URLExtensions.swift */,
+				B9CFBE1B2F0C6F3D00FC6D37 /* Bundle+AppDisplayName.swift */,
 				9838C97F2E9BC6CB00261421 /* View+Tooltip.swift */,
 				984671CF2E68A05800250D9C /* View+ScrollEdgeDisabled.swift */,
-				986DF3C72E45F2EC00D5A3C4 /* View+OnKeyPress.swift */,
-				986DF3C32E45ED0100D5A3C4 /* View+FocusEffectDisabled.swift */,
 				9830F0BD2C11DEBB00D69C88 /* View+If.swift */,
 				9830F0C62C11E87300D69C88 /* Array+RawRepresentable.swift */,
 			);
@@ -165,6 +200,8 @@
 		986AC6262CECDD2500884C40 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				B9CFC1012F0C6F3D00FC6D37 /* ChromiumProfile.swift */,
+				B9CFC1002F0C6F3D00FC6D37 /* BrowserTarget.swift */,
 				986DC8082CFE42EA00447DC7 /* Rule.swift */,
 				664FDF212CE4AA6B009766AA /* BrowserUtil.swift */,
 			);
@@ -183,6 +220,7 @@
 		989B17F12C16FC420039441B /* Preferences */ = {
 			isa = PBXGroup;
 			children = (
+				B9CFC3002F0C6F3D00FC6D37 /* BrowserTargetPicker.swift */,
 				986DC80B2CFE447200447DC7 /* EditRuleForm.swift */,
 				986DC8062CFE42E000447DC7 /* RulesTab.swift */,
 				989B17F42C16FC690039441B /* ShortcutButton.swift */,
@@ -213,6 +251,7 @@
 			dependencies = (
 			);
 			name = Browserino;
+			packageProductDependencies = (B9CFBE1F2F0C801F00FC6D37,);
 			productName = Browserino;
 			productReference = 9830F0A22C119A3000D69C88 /* Browserino.app */;
 			productType = "com.apple.product-type.application";
@@ -239,8 +278,19 @@
 			knownRegions = (
 				en,
 				Base,
+				"ru",
+				"de",
+				"fr",
+				"es",
+				"pt-BR",
+				"it",
+				"ja",
+				"ko",
+				"zh-Hans",
+
 			);
 			mainGroup = 9830F0992C119A3000D69C88;
+			packageReferences = (B9CFBE1E2F0C801E00FC6D37,);
 			productRefGroup = 9830F0A32C119A3000D69C88 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -255,6 +305,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A10CA1000000000000000001 /* Localizable.xcstrings in Resources */,
+				C0DE10000000000000000004 /* ThirdPartyNotices.txt in Resources */,
+				C0DE10000000000000000002 /* InfoPlist.xcstrings in Resources */,
 				9830F0AD2C119A3100D69C88 /* Preview Assets.xcassets in Resources */,
 				9830F0AA2C119A3100D69C88 /* Assets.xcassets in Resources */,
 				98F919362C12187500BDC10C /* Browserino.icns in Resources */,
@@ -268,13 +321,23 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A927A98409113A4B5CAAB710 /* BrowserTabScripting.swift in Sources */,
+				F4652DEE30A7A7CBE811E2AC /* BrowserSwitchService.swift in Sources */,
+				FD9F0C28839137C8A2C5239C /* SettingsPolicy.swift in Sources */,
+				081C973CEE6F66D3AFCC7281 /* IntegrationPolicy.swift in Sources */,
+				0548DCF0A79DAD1DD24FFD26 /* Localization.swift in Sources */,
+				D98E8BAAAF94791EB934B49E /* BrowserTargetPresentation.swift in Sources */,
 				9830F0BB2C11DE8F00D69C88 /* PreferencesView.swift in Sources */,
 				9830F0A82C119A3000D69C88 /* PromptView.swift in Sources */,
 				9830F0A62C119A3000D69C88 /* BrowserinoApp.swift in Sources */,
 				9830F0C52C11DF2C00D69C88 /* BrowserinoWindow.swift in Sources */,
 				B9CFBE192F0C6F3D00FC6D37 /* URLExtensions.swift in Sources */,
+				B9CFC2002F0C6F3D00FC6D37 /* BrowserTargetPicker.swift in Sources */,
+				B9CFC0022F0C6F3D00FC6D37 /* BrowserTargetIcon.swift in Sources */,
+				B9CFC0012F0C6F3D00FC6D37 /* ChromiumProfile.swift in Sources */,
+				B9CFC0002F0C6F3D00FC6D37 /* BrowserTarget.swift in Sources */,
+				B9CFBE1A2F0C6F3D00FC6D37 /* Bundle+AppDisplayName.swift in Sources */,
 				989B17FB2C1710D70039441B /* AppsTab.swift in Sources */,
-				986DF3C42E45ED0500D5A3C4 /* View+FocusEffectDisabled.swift in Sources */,
 				986DC80C2CFE447600447DC7 /* EditRuleForm.swift in Sources */,
 				989B17F32C16FC550039441B /* BrowsersTab.swift in Sources */,
 				986DC8092CFE42EB00447DC7 /* Rule.swift in Sources */,
@@ -287,7 +350,6 @@
 				989B17F92C170C160039441B /* AboutTab.swift in Sources */,
 				9830F0BE2C11DEBB00D69C88 /* View+If.swift in Sources */,
 				989B17F52C16FC690039441B /* ShortcutButton.swift in Sources */,
-				986DF3C82E45F2F000D5A3C4 /* View+OnKeyPress.swift in Sources */,
 				9830F0C32C11DEED00D69C88 /* ButtonStyles.swift in Sources */,
 				9830F0B62C119CD800D69C88 /* main.swift in Sources */,
 				664FDF222CE4AA6B009766AA /* BrowserUtil.swift in Sources */,
@@ -354,7 +416,7 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
-				MACOSX_DEPLOYMENT_TARGET = 14.4;
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -411,7 +473,7 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
-				MACOSX_DEPLOYMENT_TARGET = 14.4;
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = macosx;
@@ -447,12 +509,12 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MACOSX_DEPLOYMENT_TARGET = 13.0;
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
 				MARKETING_VERSION = 1.1.16;
 				PRODUCT_BUNDLE_IDENTIFIER = xyz.alexstrnik.Browserino;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
-				SWIFT_VERSION = 5.0;
+				SWIFT_VERSION = 6.0;
 			};
 			name = Debug;
 		};
@@ -484,12 +546,12 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MACOSX_DEPLOYMENT_TARGET = 13.0;
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
 				MARKETING_VERSION = 1.1.16;
 				PRODUCT_BUNDLE_IDENTIFIER = xyz.alexstrnik.Browserino;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
-				SWIFT_VERSION = 5.0;
+				SWIFT_VERSION = 6.0;
 			};
 			name = Release;
 		};
@@ -515,6 +577,23 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+/* Begin XCRemoteSwiftPackageReference section */
+		B9CFBE1E2F0C801E00FC6D37 /* XCRemoteSwiftPackageReference "KeyboardShortcuts" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/sindresorhus/KeyboardShortcuts";
+			requirement = {
+				kind = exactVersion;
+				version = 2.4.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+/* Begin XCSwiftPackageProductDependency section */
+		B9CFBE1F2F0C801F00FC6D37 /* KeyboardShortcuts */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = B9CFBE1E2F0C801E00FC6D37 /* XCRemoteSwiftPackageReference "KeyboardShortcuts" */;
+			productName = KeyboardShortcuts;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 9830F09A2C119A3000D69C88 /* Project object */;
 }

@@ -18,7 +18,7 @@ struct AddRule: View {
                 )
                 .opacity(0)
             
-            Text("Add a new rule by typing regex and selecting an app.")
+            Text(verbatim: L10n.text("rules.editor.instructions"))
                 .foregroundStyle(.secondary)
                 .frame(maxWidth: .infinity, alignment: .leading)
             
@@ -28,7 +28,7 @@ struct AddRule: View {
             Button(action: {
                 addPresented.toggle()
             }) {
-                Text("Add new rule")
+                Text(verbatim: L10n.text("rules.add"))
             }
             .sheet(isPresented: $addPresented) {
                 NewRuleForm(
@@ -44,7 +44,7 @@ struct RuleItem: View {
     @State private var editPresented = false
     
     var body: some View {
-        let bundle = Bundle(url: rule.app)!
+        let bundle = Bundle(url: rule.app)
 
         HStack {
             Button(action: {
@@ -61,18 +61,29 @@ struct RuleItem: View {
             Spacer()
             
             
-            Text(bundle.infoDictionary!["CFBundleName"] as! String)
+            Text(bundle == nil
+                 ? L10n.format("browsers.status.not_installed", rule.app.appDisplayName)
+                 : rule.target.displayName)
                 .font(
                     .system(size: 14)
+                )
+                .foregroundStyle(
+                    bundle == nil || rule.target.hasMissingProfile ? .secondary : .primary
                 )
             
             
             Spacer()
                 .frame(width: 8)
             
-            Image(nsImage: NSWorkspace.shared.icon(forFile: bundle.bundlePath))
-                .resizable()
-                .frame(width: 32, height: 32)
+            if bundle != nil {
+                BrowserTargetIcon(target: rule.target)
+                    .frame(width: 32, height: 32)
+            } else {
+                Image(systemName: "questionmark.app.dashed")
+                    .font(.system(size: 24))
+                    .foregroundStyle(.secondary)
+                    .frame(width: 32, height: 32)
+            }
         }
         .padding(10)
         .sheet(isPresented: $editPresented) {
@@ -98,8 +109,9 @@ struct RulesTab: View {
                     )
                 }
             }
+            .scrollContentBackground(.hidden)
             
-            Text("Type regex and choose app in which links will be opened without prompt")
+            Text(verbatim: L10n.text("rules.list.instructions"))
                 .font(.subheadline)
                 .foregroundStyle(.primary.opacity(0.5))
                 .frame(maxWidth: .infinity)

@@ -16,7 +16,7 @@ struct AboutTab: View {
                 .resizable()
                 .frame(width: 128, height: 128)
             
-            Text(
+            Text(verbatim:
                 "Browserino v\(Bundle.main.infoDictionary?["CFBundleShortVersionString"] as! String)"
             )
             .font(.title)
@@ -37,7 +37,7 @@ struct AboutTab: View {
             Spacer()
                 .frame(height: 16)
             
-            Text("Thanks to @byt3m4st3r, @mihado, @ventz and others for contributions!")
+            Text(verbatim: L10n.text("about.contributors"))
                 .foregroundStyle(.secondary)
             
             Spacer()

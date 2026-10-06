@@ -7,8 +7,12 @@
 
 import SwiftUI
 import Foundation
+import Combine
+import KeyboardShortcuts
 
-class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate {
+@MainActor
+class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate, BrowserSwitchPresenting {
+    private var languageSubscription: AnyCancellable?
     private var selectorWindow: BrowserinoWindow?
     private var preferencesWindow: NSWindow?
     
@@ -19,6 +23,20 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate {
     var statusBarItem: NSStatusItem!
     
     func applicationDidFinishLaunching(_ aNotification: Notification) {
+        if let chrome = NSWorkspace.shared.urlForApplication(withBundleIdentifier: "com.google.Chrome") {
+            SettingsPolicy.migrateLegacyProfiles(defaults: .standard, chrome: chrome)
+        }
+        BrowserSwitchService.shared.presenter = self
+        BrowserSwitchService.shared.startTracking()
+        KeyboardShortcuts.onKeyUp(for: .moveCurrentTab) { BrowserSwitchService.shared.beginMove(preferFrontmost: true) }
+        languageSubscription = Localization.shared.$activeLanguage.sink { [weak self] _ in
+            Task { @MainActor in
+                guard let self else { return }
+                if let item = self.statusBarItem { NSStatusBar.system.removeStatusItem(item); self.statusBarItem = nil }
+                self.setupStatusBar()
+                self.preferencesWindow?.title = L10n.text("settings.window.title")
+            }
+        }
         setupStatusBar()
         
         UserDefaults.standard.addObserver(self, forKeyPath: "showInMenuBar", options: [.new], context: nil)
@@ -40,11 +58,14 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate {
                 let statusButton = statusBarItem!.button
                 statusButton!.image = NSImage.menuIcon
                 
-                let preferences = NSMenuItem(title: "Preferences...", action: #selector(openPreferences), keyEquivalent: "")
-                let quit = NSMenuItem(title: "Quit", action: #selector(quitApp), keyEquivalent: "")
+                let preferences = NSMenuItem(title: L10n.text("menu.preferences"), action: #selector(openPreferences), keyEquivalent: "")
+                let quit = NSMenuItem(title: L10n.text("menu.quit"), action: #selector(quitApp), keyEquivalent: "")
                 
                 statusMenu = NSMenu()
                 
+                let move = NSMenuItem(title: L10n.text("tabs.transfer.title"), action: #selector(moveCurrentTab), keyEquivalent: "")
+                statusMenu!.addItem(move)
+                statusMenu!.addItem(.separator())
                 statusMenu!.addItem(preferences)
                 statusMenu!.addItem(.separator())
                 statusMenu!.addItem(quit)
@@ -59,10 +80,14 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate {
         }
     }
     
-    override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
+    override nonisolated func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
         if keyPath == "showInMenuBar" {
-            setupStatusBar()
-            NSApp.setActivationPolicy(.accessory)
+            // Another process writing our defaults delivers this off the main
+            // thread, so hop rather than assuming isolation.
+            Task { @MainActor in
+                setupStatusBar()
+                NSApp.setActivationPolicy(.accessory)
+            }
         }
     }
     
@@ -87,6 +112,17 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate {
         return false
     }
     
+    @objc func moveCurrentTab() { BrowserSwitchService.shared.beginMove(preferFrontmost: false) }
+
+    func presentMovePrompt(snapshot: SourceTabSnapshot) {
+        let targets = [BrowserTarget](rawValue: UserDefaults.standard.string(forKey: "browsers") ?? "") ?? []
+        let hidden = [BrowserTarget](rawValue: UserDefaults.standard.string(forKey: "hiddenBrowsers") ?? "") ?? []
+        guard TargetPolicy.visible(targets, hidden: hidden, profilesEnabled: UserDefaults.standard.object(forKey: "profilesEnabled") as? Bool != false).contains(where: { Bundle(url: $0.app) != nil && Bundle(url: $0.app)?.bundleIdentifier != snapshot.bundleIdentifier }) else {
+            BrowserSwitchService.shared.presentNoDestinationAlert(); return
+        }
+        presentSelector(urls: [snapshot.url], sourceTab: snapshot)
+    }
+
     @objc func quitApp() {
         NSApplication.shared.terminate(nil)
     }
@@ -94,7 +130,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate {
     @objc func openPreferences() {
         if preferencesWindow == nil {
             preferencesWindow = NSWindow(
-                contentRect: NSRect(x: 0, y: 0, width: 700, height: 500),
+                contentRect: NSRect(x: 0, y: 0, width: 860, height: 500),
                 styleMask: [.miniaturizable, .closable, .resizable, .titled],
                 backing: .buffered,
                 defer: false
@@ -102,41 +138,27 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate {
         }
         
         preferencesWindow!.center()
-        preferencesWindow!.title = "Preferences"
-        preferencesWindow!.contentView = NSHostingView(rootView: PreferencesView())
+        preferencesWindow!.title = L10n.text("settings.window.title")
+        preferencesWindow!.contentView = NSHostingView(rootView: LocalizedRoot { PreferencesView() })
         
         preferencesWindow!.isReleasedWhenClosed = false
         preferencesWindow!.titlebarAppearsTransparent = true
         
-        preferencesWindow!.contentMinSize = NSSize(width: 700, height: 500)
+        preferencesWindow!.contentMinSize = NSSize(width: 860, height: 500)
         
         preferencesWindow!.collectionBehavior = [.moveToActiveSpace, .fullScreenNone]
         
-        NSApplication.shared.activate(ignoringOtherApps: true)
+        NSApplication.shared.activateCompat()
         
         preferencesWindow!.makeKeyAndOrderFront(nil)
         preferencesWindow!.orderFrontRegardless()
     }
     
     func application(_ application: NSApplication, open urls: [URL]) {
-        var processedUrls = urls
-        
-        if urls.count == 1 {
-            let url = urls.first!
-            
-            if url.scheme == "browserino" && url.host == "open" {
-                if let components = URLComponents(url: url, resolvingAgainstBaseURL: false),
-                   let queryItems = components.queryItems,
-                   let encodedUrl = queryItems.first(where: { $0.name == "url" })?.value,
-                   let decodedData = Data(base64Encoded: encodedUrl),
-                   let decodedUrlString = String(data: decodedData, encoding: .utf8),
-                   let decodedUrl = URL(string: decodedUrlString) {
-                    processedUrls = [decodedUrl]
-                } else {
-                    return
-                }
-            }
-            
+        let processedUrls = urls.compactMap(\.browserinoIncomingURL)
+        guard !processedUrls.isEmpty else { return }
+
+        if processedUrls.count == 1 {
             let urlString = processedUrls.first!.absoluteString
 
             for rule in rules {
@@ -145,7 +167,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate {
                 if let regex, urlString.firstMatch(of: regex) != nil {
                     BrowserUtil.openURL(
                         processedUrls,
-                        app: rule.app,
+                        target: rule.target,
                         isIncognito: false
                     )
                     return
@@ -153,11 +175,15 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate {
             }
         }
         
+        presentSelector(urls: processedUrls)
+    }
+
+    private func presentSelector(urls: [URL], sourceTab: SourceTabSnapshot? = nil) {
         if selectorWindow == nil {
             selectorWindow = BrowserinoWindow()
         }
         
-        let screen = getScreenWithMouse()!.visibleFrame
+        guard let screen = (getScreenWithMouse() ?? NSScreen.main ?? NSScreen.screens.first)?.visibleFrame else { return }
         
         selectorWindow?.setFrameOrigin(
             NSPoint(
@@ -174,13 +200,11 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate {
             )
         )
         
-        NSApplication.shared.activate(ignoringOtherApps: true)
+        NSApplication.shared.activateCompat()
         selectorWindow!.deactivateDelay()
         
         selectorWindow!.contentView = NSHostingView(
-            rootView: PromptView(
-                urls: processedUrls
-            )
+            rootView: LocalizedRoot { PromptView(urls: urls, sourceTab: sourceTab) }
         )
         
         selectorWindow!.makeKeyAndOrderFront(nil)
@@ -193,7 +217,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate {
     }
     
     func windowDidResignKey(_ notification: Notification) {
-        if selectorWindow!.hidesOnDeactivate {
+        if notification.object as? NSWindow === selectorWindow, selectorWindow?.hidesOnDeactivate == true, selectorWindow?.presentingAlert == false {
             selectorWindow!.contentView = nil
             selectorWindow!.close()
         }

@@ -1,0 +1,71 @@
+{
+  "sourceLanguage": "en",
+  "strings": {
+    "NSAppleEventsUsageDescription": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Allow Browserino to control the browser in System Settings → Privacy & Security → Automation."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Разрешите Browserino управлять браузером: Системные настройки → Конфиденциальность и безопасность → Автоматизация."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Erlauben Sie Browserino die Browsersteuerung unter Systemeinstellungen → Datenschutz & Sicherheit → Automation."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Autorisez Browserino à contrôler le navigateur dans Réglages système → Confidentialité et sécurité → Automatisation."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Permita a Browserino controlar el navegador en Ajustes del sistema → Privacidad y seguridad → Automatización."
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Permita ao Browserino controlar o navegador em Ajustes do sistema → Privacidade e Segurança → Automação."
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Consenti a Browserino di controllare il browser in Impostazioni di sistema → Privacy e sicurezza → Automazione."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "システム設定 → プライバシーとセキュリティ → オートメーションでBrowserinoによるブラウザの制御を許可してください。"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "시스템 설정 → 개인정보 보호 및 보안 → 자동화에서 Browserino의 브라우저 제어를 허용하세요."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "请在系统设置 → 隐私与安全性 → 自动化中允许Browserino控制浏览器。"
+          }
+        }
+      }
+    }
+  },
+  "version": "1.0"
+}

@@ -63,5 +63,7 @@
 	<array>
 		<string>NSUserActivityTypeBrowsingWeb</string>
 	</array>
+	<key>NSAppleEventsUsageDescription</key>
+	<string>Browserino reads the selected browser tab and can close that same tab after opening it in another browser.</string>
 </dict>
 </plist>

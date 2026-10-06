@@ -9,9 +9,14 @@ import Foundation
 import AppKit
 
 class BrowserinoWindow: NSPanel {
+    var presentingAlert = false
     static let selectorWidth: CGFloat = 250
     static let selectorHeight: CGFloat = 200
-    
+
+    /// .nonactivatingPanel would otherwise refuse key status, which the
+    /// keyboard-driven picker depends on.
+    override var canBecomeKey: Bool { true }
+
     public convenience init() {
         self.init(
             contentRect: .init(x: 0, y: 0, width: Self.selectorWidth, height: Self.selectorHeight),
@@ -32,7 +37,8 @@ class BrowserinoWindow: NSPanel {
         
         self.collectionBehavior = [.stationary, .ignoresCycle, .fullScreenAuxiliary, .canJoinAllSpaces]
         self.isOpaque = false
-        self.level = NSWindow.Level(Int(CGShieldingWindowLevel()))
+        self.backgroundColor = .clear
+        self.level = .floating
         self.isMovable = false
         self.deactivateDelay()
     }
@@ -40,13 +46,9 @@ class BrowserinoWindow: NSPanel {
     func deactivateDelay() {
         self.hidesOnDeactivate = false
         DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(100)) {
-            NSApplication.shared.activate(ignoringOtherApps: true)
+            NSApplication.shared.activateCompat()
             self.makeKeyAndOrderFront(nil)
             self.hidesOnDeactivate = true
         }
     }
-}
-
-extension NSPanel {
-    open override var canBecomeKey: Bool { true }
 }

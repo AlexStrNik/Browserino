@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct ShortcutButton: View {
-    let browserId: String
+    let shortcutKey: String
     
     @AppStorage("shortcuts") private var shortcuts: [String: String] = [:]
     
@@ -17,32 +17,33 @@ struct ShortcutButton: View {
     
     var body: some View {
         if isRecording {
-            Text("Press any key")
+            Text(verbatim: L10n.text("shortcuts.recorder.press_key"))
                 .padding(5)
                 .contentShape(.rect)
                 .focusable()
                 .focused($focus)
-                .onChange(of: focus) { newFocus in
+                .onChange(of: focus) { _, newFocus in
                     isRecording = newFocus
                 }
-                .onKeyPressCompat { key in
+                .onKeyPress { press in
+                    let key = press.key.character.uppercased()
                     isRecording = false
-                    
+
                     if let shortcut = shortcuts.first(where: { $0.value == key }) {
                         shortcuts[shortcut.key] = nil
                     }
-                    shortcuts[browserId] = key
-                    
-                    return true
+                    shortcuts[shortcutKey] = key
+
+                    return .handled
                 }
         } else {
-            let recordedKey = shortcuts[browserId]
+            let recordedKey = shortcuts[shortcutKey]
             
             Button(action: {
                 isRecording = true
                 focus = true
             }, label: {
-                Text(recordedKey ?? "Record")
+                Text(recordedKey ?? L10n.text("shortcuts.recorder.assign"))
                     .padding(5)
             })
             .opacity(recordedKey == nil ? 0.5 : 1)

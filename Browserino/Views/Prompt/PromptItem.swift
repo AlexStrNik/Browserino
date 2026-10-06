@@ -8,16 +8,15 @@
 import SwiftUI
 
 struct PromptItem: View {
-    var browser: URL
-    var urls: [URL]
-    var bundle: Bundle
+    var target: BrowserTarget
+    var title: String
     var shortcut: String?
     var action: () -> Void
-    
+
     var body: some View {
         Button(action: action) {
             HStack {
-                Text(bundle.infoDictionary!["CFBundleName"] as! String)
+                Text(title)
                     .font(
                         .system(size: 12, weight: .bold)
                     )
@@ -39,17 +38,12 @@ struct PromptItem: View {
                 Spacer()
                     .frame(width: 8)
                 
-                Image(
-                    nsImage: NSWorkspace.shared.icon(
-                        forFile: bundle.bundlePath
-                    )
-                )
-                .resizable()
-                .frame(width: 24, height: 24)
+                BrowserTargetIcon(target: target, badgeSize: 11)
+                    .frame(width: 24, height: 24)
             }
             .padding(8)
         }
-        .if(shortcut != nil) {
+        .if(shortcut?.isEmpty == false) {
             return $0.keyboardShortcut(
                 KeyEquivalent(shortcut!.lowercased().first!),
                 modifiers: [.shift]
